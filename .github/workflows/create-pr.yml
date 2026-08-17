@@ -1,0 +1,40 @@
+name: Create Pull Request
+
+on:
+  push:
+    branches: [deploy-railway]
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: deploy railway configuration"
+          title: "Deploy: Add Railway configuration and deployment guides"
+          body: |
+            ## What's changed
+            
+            - Added Railway.toml for backend deployment
+            - Added deployment guides and scripts
+            - Created frontend Vue 3 application
+            - Configured Cloudflare Pages for frontend
+            
+            ## Deployment Status
+            
+            - [x] Frontend deployed to Cloudflare Pages
+            - [ ] Backend deployment (Railway)
+            
+            ## Environment Variables Needed
+            
+            - SUPABASE_URL
+            - SUPABASE_SERVICE_KEY
+            - JWT_SECRET_KEY
+            - AI_PROVIDER
+            - AI_AGNES_API_KEY
+          branch: deploy-railway
+          base: main
