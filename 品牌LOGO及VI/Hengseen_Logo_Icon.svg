@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 圆形外框 -->
+  <circle cx="100" cy="100" r="90" stroke="#2C2F36" stroke-width="3" fill="none"/>
+  
+  <!-- 左侧对话气泡 -->
+  <path d="M25 80C25 71.163 32.163 64 41 64H71C79.837 64 87 71.163 87 80V100C87 108.837 79.837 116 71 116H59L51 124V116H41C32.163 116 25 108.837 25 100V80Z" 
+        fill="#4A7C9B" opacity="0.2" stroke="#4A7C9B" stroke-width="2.5"/>
+  
+  <!-- 右侧对话气泡 -->
+  <path d="M113 80C113 71.163 120.163 64 129 64H159C167.837 64 175 71.163 175 80V100C175 108.837 167.837 116 159 116H141L133 124V116H129C120.163 116 113 108.837 113 100V80Z" 
+        fill="#4A7C9B" opacity="0.2" stroke="#4A7C9B" stroke-width="2.5"/>
+  
+  <!-- 中心平衡圆 -->
+  <circle cx="100" cy="90" r="18" fill="#4A7C9B"/>
+  
+  <!-- 连接线 -->
+  <line x1="71" y1="90" x2="82" y2="90" stroke="#2C2F36" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="118" y1="90" x2="129" y2="90" stroke="#2C2F36" stroke-width="2.5" stroke-linecap="round"/>
+  
+  <!-- 契约弧线 -->
+  <path d="M45 140 Q100 170 155 140" stroke="#2C2F36" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M55 150 Q100 175 145 150" stroke="#4A7C9B" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.6"/>
+</svg>

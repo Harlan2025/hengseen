@@ -1,0 +1,14 @@
+fastapi==0.109.0
+uvicorn==0.27.0
+httpx==0.26.0
+supabase==2.3.0
+pydantic[email]==2.5.3
+pydantic-settings==2.1.0
+python-multipart==0.0.6
+python-docx==1.1.0
+markdown==3.5.2
+qrcode==7.4.2
+Pillow==10.2.0
+
+# Cloudflare Workers 兼容
+starlette==0.35.1

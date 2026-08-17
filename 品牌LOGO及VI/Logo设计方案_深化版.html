@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>衡简叙约 Hengseen — LOGO 设计深化版</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=LXGW+WenKai+Mono&display=swap');
+        
+        :root {
+            --charcoal: #2C2F36;
+            --blue: #4A7C9B;
+            --blue-light: #5B8DB5;
+            --pale: #E8F1F5;
+            --bg: #F7F8FA;
+            --gray: #8A919A;
+            --border: #E8ECEF;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: var(--bg);
+            color: var(--charcoal);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+        
+        h1 {
+            font-size: 42px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 60px 0 24px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--blue);
+        }
+        
+        h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 40px 0 16px;
+            color: var(--blue);
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            color: var(--gray);
+            margin-bottom: 60px;
+        }
+        
+        /* Logo 展示区 */
+        .logo-showcase {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .logo-card {
+            background: white;
+            border-radius: 16px;
+            padding: 48px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+        
+        .logo-card.dark {
+            background: var(--charcoal);
+        }
+        
+        .logo-card.blue {
+            background: var(--blue);
+        }
+        
+        .logo-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .logo-text {
+            text-align: center;
+        }
+        
+        .logo-text-cn {
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+        
+        .logo-text-en {
+            font-size: 13px;
+            color: var(--gray);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+        
+        .logo-card.dark .logo-text-en,
+        .logo-card.blue .logo-text-en {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .logo-card.dark .logo-text-cn,
+        .logo-card.blue .logo-text-cn {
+            color: white;
+        }
+        
+        /* 设计理念说明 */
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-top: 40px;
+        }
+        
+        .concept-card {
+            background: white;
+            border-radius: 12px;
+            padding: 32px 24px;
+            text-align: center;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+        }
+        
+        .concept-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 16px;
+        }
+        
+        .concept-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--blue);
+        }
+        
+        .concept-desc {
+            font-size: 14px;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+        
+        /* 版本对比 */
+        .version-compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+        
+        .version-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+        
+        .version-label {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        /* 构建解析 */
+        .build-analysis {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-top: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+        
+        .build-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-top: 32px;
+        }
+        
+        .build-step {
+            text-align: center;
+            padding: 24px;
+            background: var(--bg);
+            border-radius: 12px;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin: 0 auto 16px;
+        }
+        
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .step-desc {
+            font-size: 13px;
+            color: var(--gray);
+        }
+        
+        /* 应用场景 */
+        .app-preview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 40px;
+        }
+        
+        .app-item {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        
+        .app-preview-area {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+        
+        .app-preview-area.light { background: var(--bg); }
+        .app-preview-area.dark { background: var(--charcoal); }
+        .app-preview-area.blue { background: var(--blue); }
+        
+        .app-label {
+            padding: 16px 20px;
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        /* 下载区 */
+        .download-section {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-top: 60px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+        
+        .file-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 24px;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px;
+            background: var(--bg);
+            border-radius: 8px;
+        }
+        
+        .file-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--blue);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+        }
+        
+        .file-info {
+            flex: 1;
+        }
+        
+        .file-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .file-desc {
+            font-size: 13px;
+            color: var(--gray);
+        }
+        
+        @media (max-width: 1024px) {
+            .logo-showcase,
+            .concept-grid,
+            .build-steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .logo-showcase,
+            .concept-grid,
+            .build-steps,
+            .app-preview {
+                grid-template-columns: 1fr;
+            }
+            
+            .version-compare {
+                grid-template-columns: 1fr;
+            }
+            
+            .file-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>衡简叙约 · LOGO 设计深化版</h1>
+        <p class="subtitle">Hengseen — 访谈式智能契约生成系统品牌标识设计</p>
+        
+        <!-- 三大方案 -->
+        <h2>Logo 设计方案</h2>
+        <div class="logo-showcase">
+            <!-- 方案一：对话契约 -->
+            <div class="logo-card">
+                <div class="logo-display">
+                    <svg width="140" height="140" viewBox="0 0 140 140" fill="none">
+                        <!-- 外框 - 代表契约边界 -->
+                        <rect x="15" y="15" width="110" height="110" rx="20" stroke="#2C2F36" stroke-width="2.5"/>
+                        
+                        <!-- 对话气泡 - 代表"叙" -->
+                        <path d="M30 50C30 44.477 34.477 40 40 40H75C80.523 40 85 44.477 85 50V70C85 75.523 80.523 80 75 80H62L52 90V80H40C34.477 80 30 75.523 30 70V50Z" 
+                              fill="#4A7C9B" opacity="0.15" stroke="#4A7C9B" stroke-width="2"/>
+                        
+                        <!-- 对话文字点 -->
+                        <circle cx="45" cy="55" r="3" fill="#4A7C9B"/>
+                        <circle cx="55" cy="55" r="3" fill="#4A7C9B"/>
+                        <circle cx="65" cy="55" r="3" fill="#4A7C9B"/>
+                        <circle cx="45" cy="65" r="3" fill="#4A7C9B"/>
+                        <circle cx="55" cy="65" r="3" fill="#4A7C9B"/>
+                        
+                        <!-- 平衡符号 - 代表"衡" -->
+                        <line x1="95" y1="45" x2="95" y2="95" stroke="#2C2F36" stroke-width="2.5" stroke-linecap="round"/>
+                        <line x1="82" y1="52" x2="108" y2="52" stroke="#2C2F36" stroke-width="2.5" stroke-linecap="round"/>
+                        <circle cx="82" cy="62" r="5" fill="#4A7C9B"/>
+                        <circle cx="108" cy="62" r="5" fill="#4A7C9B"/>
+                        <path d="M89 95L95 102L101 95" stroke="#2C2F36" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        
+                        <!-- 契约线条 - 代表"约" -->
+                        <line x1="35" y1="105" x2="55" y2="105" stroke="#2C2F36" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="35" y1="112" x2="50" y2="112" stroke="#4A7C9B" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="35" y1="119" x2="55" y2="119" stroke="#2C2F36" stroke-width="2" stroke-linecap="round"/>
+                        
+                        <!-- 签名线 - 代表契约签署 -->
+                        <path d="M65 108C70 105 75 110 80 108C85 106 90 110 95 108" stroke="#4A7C9B" stroke-width="2" stroke-linecap="round" fill="none"/>
+                    </svg>
+                    <div class="logo-text">
+                        <div class="logo-text-cn">衡简叙约</div>
+                        <div class="logo-text-en">HENGSEEN</div>
+                    </div>
+                </div>
+                <div style="font-size: 13px; color: var(--gray);">方案一：对话契约</div>
+            </div>
+            
+            <!-- 方案二：平衡对话 -->
+            <div class="logo-card">
+                <div class="logo-display">
+                    <svg width="140" height="140" viewBox="0 0 140 140" fill="none">
+                        <!-- 中心圆 - 代表核心 -->
+                        <circle cx="70" cy="70" r="45" stroke="#2C2F36" stroke-width="2.5" fill="none"/>
+                        
+                        <!-- 对话元素 - 左侧 -->
+                        <path d="M25 60C25 54.477 29.477 50 35 50H55C60.523 50 65 54.477 65 60V75C65 80.523 60.523 85 55 85H48L42 91V85H35C29.477 85 25 80.523 25 75V60Z" 
+                              fill="#4A7C9B" opacity="0.2" stroke="#4A7C9B" stroke-width="2"/>
+                        
+                        <!-- 右侧对话 -->
+                        <path d="M75 60C75 54.477 79.477 50 85 50H105C110.523 50 115 54.477 115 60V75C115 80.523 110.523 85 105 85H92L86 91V85H85C79.477 85 75 80.523 75 75V60Z" 
+                              fill="#4A7C9B" opacity="0.2" stroke="#4A7C9B" stroke-width="2"/>
+                        
+                        <!-- 平衡中心 -->
+                        <circle cx="70" cy="70" r="12" fill="#4A7C9B"/>
+                        
+                        <!-- 连接线 -->
+                        <line x1="55" y1="70" x2="58" y2="70" stroke="#2C2F36" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="82" y1="70" x2="85" y2="70" stroke="#2C2F36" stroke-width="2" stroke-linecap="round"/>
+                        
+                        <!-- 契约弧线 -->
+                        <path d="M40 100 Q70 115 100 100" stroke="#2C2F36" stroke-width="2" fill="none" stroke-linecap="round"/>
+                        <path d="M45 108 Q70 120 95 108" stroke="#4A7C9B" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.6"/>
+                    </svg>
+                    <div class="logo-text">
+                        <div class="logo-text-cn">衡简叙约</div>
+                        <div class="logo-text-en">HENGSEEN</div>
+                    </div>
+                </div>
+                <div style="font-size: 13px; color: var(--gray);">方案二：平衡对话</div>
+            </div>
+            
+            <!-- 方案三：抽象融合 -->
+            <div class="logo-card">
+                <div class="logo-display">
+                    <svg width="140" height="140" viewBox="0 0 140 140" fill="none">
+                        <!-- 外层框架 - 契约边界 -->
+                        <rect x="20" y="20" width="100" height="100" rx="8" stroke="#2C2F36" stroke-width="2.5" fill="none"/>
+                        
+                        <!-- 内层对话气泡 - 抽象化 -->
+                        <path d="M35 50L35 80L65 80L65 95L80 80L95 80L95 50L80 35L65 50L50 35L35 50Z" 
+                              fill="#4A7C9B" opacity="0.15" stroke="#4A7C9B" stroke-width="2"/>
+                        
+                        <!-- 平衡横线 -->
+                        <line x1="45" y1="65" x2="95" y2="65" stroke="#2C2F36" stroke-width="2.5" stroke-linecap="round"/>
+                        
+                        <!-- 平衡竖线 -->
+                        <line x1="70" y1="50" x2="70" y2="85" stroke="#2C2F36" stroke-width="2.5" stroke-linecap="round"/>
+                        
+                        <!-- 砝码 -->
+                        <circle cx="45" cy="72" r="6" fill="#4A7C9B"/>
+                        <circle cx="95" cy="72" r="6" fill="#4A7C9B"/>
+                        
+                        <!-- 基座 -->
+                        <path d="M62 85L70 95L78 85" stroke="#2C2F36" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        
+                        <!-- 契约线条装饰 -->
+                        <line x1="40" y1="100" x2="55" y2="100" stroke="#2C2F36" stroke-width="1.5" stroke-linecap="round"/>
+                        <line x1="40" y1="106" x2="50" y2="106" stroke="#4A7C9B" stroke-width="1.5" stroke-linecap="round"/>
+                        <line x1="40" y1="112" x2="55" y2="112" stroke="#2C2F36" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    <div class="logo-text">
+                        <div class="logo-text-cn">衡简叙约</div>
+                        <div class="logo-text-en">HENGSEEN</div>
+                    </div>
+                </div>
+                <div style="font-size: 13px; color: var(--gray);">方案三：抽象融合</div>
+            </div>
+        </div>
+        
+        <!-- 设计理念 -->
+        <h2>设计理念解析</h2>
+        <div class="concept-grid">
+            <div class="concept-card">
+                <div class="concept-icon">
+                    <svg viewBox="0 0 64 64" fill="none">
+                        <path d="M10 20C10 16.686 12.686 14 16 14H48C51.314 14 54 16.686 54 20V38C54 41.314 51.314 44 48 44H40L34 50V44H16C12.686 44 10 41.314 10 38V20Z" 
+                              fill="#4A7C9B" stroke="#4A7C9B" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div class="concept-title">叙</div>
+                <div class="concept-desc">对话气泡代表访谈式采集，通过对话理清交易事实</div>
+            </div>
+            <div class="concept-card">
+                <div class="concept-icon">
+                    <svg viewBox="0 0 64 64" fill="none">
+                        <line x1="32" y1="12" x2="32" y2="52" stroke="#2C2F36" stroke-width="2.5" stroke-linecap="round"/>
+                        <line x1="20" y1="18" x2="44" y2="18" stroke="#2C2F36" stroke-width="2.5" stroke-linecap="round"/>
+                        <circle cx="20" cy="28" r="5" fill="#4A7C9B"/>
+                        <circle cx="44" cy="28" r="5" fill="#4A7C9B"/>
+                        <path d="M26 52L32 58L38 52" stroke="#2C2F36" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="concept-title">衡</div>
+                <div class="concept-desc">平衡标尺象征权衡权责，识别风险，公允界定权利义务</div>
+            </div>
+            <div class="concept-card">
+                <div class="concept-icon">
+                    <svg viewBox="0 0 64 64" fill="none">
+                        <rect x="12" y="12" width="40" height="40" rx="4" stroke="#2C2F36" stroke-width="2"/>
+                        <line x1="20" y1="24" x2="44" y2="24" stroke="#4A7C9B" stroke-width="2"/>
+                        <line x1="20" y1="32" x2="38" y2="32" stroke="#4A7C9B" stroke-width="2"/>
+                        <line x1="20" y1="40" x2="44" y2="40" stroke="#4A7C9B" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div class="concept-title">简</div>
+                <div class="concept-desc">简约线条寓意打破繁杂模板，轻量化起草法律文书</div>
+            </div>
+            <div class="concept-card">
+                <div class="concept-icon">
+                    <svg viewBox="0 0 64 64" fill="none">
+                        <path d="M16 10H40L52 22V50H16V10Z" stroke="#2C2F36" stroke-width="2"/>
+                        <line x1="40" y1="10" x2="40" y2="22" stroke="#2C2F36" stroke-width="2"/>
+                        <line x1="22" y1="30" x2="46" y2="30" stroke="#4A7C9B" stroke-width="2"/>
+                        <line x1="22" y1="38" x2="46" y2="38" stroke="#4A7C9B" stroke-width="2"/>
+                        <line x1="22" y1="46" x2="36" y2="46" stroke="#4A7C9B" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div class="concept-title">约</div>
+                <div class="concept-desc">契约书页代表商事法律文书，动态生成适配场景的契约</div>
+            </div>
+        </div>
+        
+        <!-- 方案对比 -->
+        <h2>方案对比与推荐</h2>
+        <div class="version-compare">
+            <div class="version-card">
+                <div class="version-label">方案一：对话契约</div>
+                <svg width="200" height="200" viewBox="0 0 140 140" fill="none" style="margin: 0 auto 24px; display: block;">
+                    <rect x="15" y="15" width="110" height="110" rx="20" stroke="#2C2F36" stroke-width="2.5"/>
+                    <path d="M30 50C30 44.477 34.477 40 40 40H75C80.523 40 85 44.477 85 50V70C85 75.523 80.523 80 75 80H62L52 90V80H40C34.477 80 30 75.523 30 70V50Z" 
+                          fill="#4A7C9B" opacity="0.15" stroke="#4A7C9B" stroke-width="2"/>
+                    <circle cx="45" cy="55" r="3" fill="#4A7C9B"/>
+                    <circle cx="55" cy="55" r="3" fill="#4A7C9B"/>
+                    <circle cx="65" cy="55" r="3" fill="#4A7C9B"/>
+                    <circle cx="45" cy="65" r="3" fill="#4A7C9B"/>
+                    <circle cx="55" cy="65" r="3" fill="#4A7C9B"/>
+                    <line x1="95" y1="45" x2="95" y2="95" stroke="#2C2F36" stroke-width="2.5" stroke-linecap="round"/>
+                    <line x1="82" y1="52" x2="108" y2="52" stroke="#2C2F36" stroke-width="2.5" stroke-linecap="round"/>
+                    <circle cx="82" cy="62" r="5" fill="#4A7C9B"/>
+                    <circle cx="108" cy="62" r="5" fill="#4A7C9B"/>
+                    <path d="M89 95L95 102L101 95" stroke="#2C2F36" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <line x1="35" y1="105" x2="55" y2="105" stroke="#2C2F36" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="35" y1="112" x2="50" y2="112" stroke="#4A7C9B" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="35" y1="119" x2="55" y2="119" stroke="#2C2F36" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M65 108C70 105 75 110 80 108C85 106 90 110 95 108" stroke="#4A7C9B" stroke-width="2" stroke-linecap="round" fill="none"/>
+                </svg>
+                <p style="text-align: center; font-size: 14px; color: var(--gray);">将对话气泡与平衡标尺并置，契约线条与签名强化法律属性，结构清晰，识别度高</p>
+            </div>
+            
+            <div class="version-card" style="border: 2px solid var(--blue);">
+                <div class="version-label" style="color: var(--blue);">方案二：平衡对话 ⭐ 推荐</div>
+                <svg width="200" height="200" viewBox="0 0 140 140" fill="none" style="margin: 0 auto 24px; display: block;">
+                    <circle cx="70" cy="70" r="45" stroke="#2C2F36" stroke-width="2.5" fill="none"/>
+                    <path d="M25 60C25 54.477 29.477 50 35 50H55C60.523 50 65 54.477 65 60V75C65 80.523 60.523 85 55 85H48L42 91V85H35C29.477 85 25 80.523 25 75V60Z" 
+                          fill="#4A7C9B" opacity="0.2" stroke="#4A7C9B" stroke-width="2"/>
+                    <path d="M75 60C75 54.477 79.477 50 85 50H105C110.523 50 115 54.477 115 60V75C115 80.523 110.523 85 105 85H92L86 91V85H85C79.477 85 75 80.523 75 75V60Z" 
+                          fill="#4A7C9B" opacity="0.2" stroke="#4A7C9B" stroke-width="2"/>
+                    <circle cx="70" cy="70" r="12" fill="#4A7C9B"/>
+                    <line x1="55" y1="70" x2="58" y2="70" stroke="#2C2F36" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="82" y1="70" x2="85" y2="70" stroke="#2C2F36" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M40 100 Q70 115 100 100" stroke="#2C2F36" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    <path d="M45 108 Q70 120 95 108" stroke="#4A7C9B" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.6"/>
+                </svg>
+                <p style="text-align: center; font-size: 14px; color: var(--gray);">双向对话汇聚于中心平衡点，弧线象征契约约束，整体构图均衡和谐，寓意对话达成公平契约</p>
+            </div>
+        </div>
+        
+        <!-- 构建解析 -->
+        <h2>推荐方案构建解析</h2>
+        <div class="build-analysis">
+            <p style="color: var(--gray);">方案二「平衡对话」通过四个层次传达品牌内涵：</p>
+            <div class="build-steps">
+                <div class="build-step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">圆形外框</div>
+                    <div class="step-desc">代表完整、闭环的契约关系，也象征品牌的专业与可信</div>
+                </div>
+                <div class="build-step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">对话气泡</div>
+                    <div class="step-desc">左右对称的双向对话，体现"访谈式事实采集"的核心交互</div>
+                </div>
+                <div class="build-step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">中心圆点</div>
+                    <div class="step-desc">平衡的核心，代表权衡权责、识别风险、公允界定</div>
+                </div>
+                <div class="build-step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">契约弧线</div>
+                    <div class="step-desc">下方弧线象征契约约束与法律文件的签署</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 应用场景 -->
+        <h2>应用场景预览</h2>
+        <div class="app-preview">
+            <div class="app-item">
+                <div class="app-preview-area light">
+                    <svg width="100" height="100" viewBox="0 0 140 140" fill="none">
+                        <circle cx="70" cy="70" r="45" stroke="#2C2F36" stroke-width="2.5" fill="none"/>
+                        <path d="M25 60C25 54.477 29.477 50 35 50H55C60.523 50 65 54.477 65 60V75C65 80.523 60.523 85 55 85H48L42 91V85H35C29.477 85 25 80.523 25 75V60Z" fill="#4A7C9B" opacity="0.2" stroke="#4A7C9B" stroke-width="2"/>
+                        <path d="M75 60C75 54.477 79.477 50 85 50H105C110.523 50 115 54.477 115 60V75C115 80.523 110.523 85 105 85H92L86 91V85H85C79.477 85 75 80.523 75 75V60Z" fill="#4A7C9B" opacity="0.2" stroke="#4A7C9B" stroke-width="2"/>
+                        <circle cx="70" cy="70" r="12" fill="#4A7C9B"/>
+                        <line x1="55" y1="70" x2="58" y2="70" stroke="#2C2F36" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="82" y1="70" x2="85" y2="70" stroke="#2C2F36" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M40 100 Q70 115 100 100" stroke="#2C2F36" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="app-label">浅色背景应用</div>
+            </div>
+            <div class="app-item">
+                <div class="app-preview-area dark">
+                    <svg width="100" height="100" viewBox="0 0 140 140" fill="none">
+                        <circle cx="70" cy="70" r="45" stroke="white" stroke-width="2.5" fill="none"/>
+                        <path d="M25 60C25 54.477 29.477 50 35 50H55C60.523 50 65 54.477 65 60V75C65 80.523 60.523 85 55 85H48L42 91V85H35C29.477 85 25 80.523 25 75V60Z" fill="white" opacity="0.2" stroke="white" stroke-width="2"/>
+                        <path d="M75 60C75 54.477 79.477 50 85 50H105C110.523 50 115 54.477 115 60V75C115 80.523 110.523 85 105 85H92L86 91V85H85C79.477 85 75 80.523 75 75V60Z" fill="white" opacity="0.2" stroke="white" stroke-width="2"/>
+                        <circle cx="70" cy="70" r="12" fill="white"/>
+                        <line x1="55" y1="70" x2="58" y2="70" stroke="#4A7C9B" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="82" y1="70" x2="85" y2="70" stroke="#4A7C9B" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M40 100 Q70 115 100 100" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="app-label">深色背景应用</div>
+            </div>
+            <div class="app-item">
+                <div class="app-preview-area blue">
+                    <svg width="100" height="100" viewBox="0 0 140 140" fill="none">
+                        <circle cx="70" cy="70" r="45" stroke="white" stroke-width="2.5" fill="none"/>
+                        <path d="M25 60C25 54.477 29.477 50 35 50H55C60.523 50 65 54.477 65 60V75C65 80.523 60.523 85 55 85H48L42 91V85H35C29.477 85 25 80.523 25 75V60Z" fill="white" opacity="0.3" stroke="white" stroke-width="2"/>
+                        <path d="M75 60C75 54.477 79.477 50 85 50H105C110.523 50 115 54.477 115 60V75C115 80.523 110.523 85 105 85H92L86 91V85H85C79.477 85 75 80.523 75 75V60Z" fill="white" opacity="0.3" stroke="white" stroke-width="2"/>
+                        <circle cx="70" cy="70" r="12" fill="white"/>
+                        <line x1="55" y1="70" x2="58" y2="70" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="82" y1="70" x2="85" y2="70" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M40 100 Q70 115 100 100" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="app-label">品牌色背景应用</div>
+            </div>
+        </div>
+        
+        <!-- 下载区 -->
+        <div class="download-section">
+            <h3 style="margin-top: 0;">📦 可下载设计文件</h3>
+            <div class="file-list">
+                <div class="file-item">
+                    <div class="file-icon">SVG</div>
+                    <div class="file-info">
+                        <div class="file-name">Hengseen_Logo_Recommended.svg</div>
+                        <div class="file-desc">推荐方案 - 平衡对话（横排）</div>
+                    </div>
+                </div>
+                <div class="file-item">
+                    <div class="file-icon">SVG</div>
+                    <div class="file-info">
+                        <div class="file-name">Hengseen_Logo_Icon.svg</div>
+                        <div class="file-desc">纯图形标识（方形应用）</div>
+                    </div>
+                </div>
+                <div class="file-item">
+                    <div class="file-icon">SVG</div>
+                    <div class="file-info">
+                        <div class="file-name">Hengseen_Logo_Alternative1.svg</div>
+                        <div class="file-desc">备选方案一：对话契约</div>
+                    </div>
+                </div>
+                <div class="file-item">
+                    <div class="file-icon">SVG</div>
+                    <div class="file-info">
+                        <div class="file-name">Hengseen_Color_Palette.svg</div>
+                        <div class="file-desc">色彩规范图</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 60px; padding-top: 40px; border-top: 1px solid var(--border); text-align: center; color: var(--gray); font-size: 14px;">
+            <p>©2026 衡简叙约 Hengseen 版权所有</p>
+            <p style="margin-top: 8px;">品牌视觉识别系统 V2.0 — 深化版</p>
+        </div>
+    </div>
+    
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

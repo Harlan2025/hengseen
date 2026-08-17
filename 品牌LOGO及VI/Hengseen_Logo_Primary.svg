@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="200" viewBox="0 0 400 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景 -->
+  <rect width="400" height="200" fill="#F7F8FA"/>
+  
+  <!-- Logo 图形部分 -->
+  <g transform="translate(50, 40)">
+    <!-- 对话气泡 -->
+    <path d="M0 25C0 19.4772 4.47715 15 10 15H50C55.5228 15 60 19.4772 60 25V55C60 60.5228 55.5228 65 50 65H40L30 75V65H10C4.47715 65 0 60.5228 0 55V25Z" 
+          fill="#4A7C9B" stroke="#4A7C9B" stroke-width="2"/>
+    
+    <!-- 平衡标尺竖线 -->
+    <line x1="30" y1="15" x2="30" y2="85" stroke="#2C2F36" stroke-width="2.5" stroke-linecap="round"/>
+    
+    <!-- 平衡标尺横线 -->
+    <line x1="18" y1="22" x2="42" y2="22" stroke="#2C2F36" stroke-width="2.5" stroke-linecap="round"/>
+    
+    <!-- 平衡砝码 -->
+    <circle cx="18" cy="32" r="5" fill="#4A7C9B"/>
+    <circle cx="42" cy="32" r="5" fill="#4A7C9B"/>
+    
+    <!-- 基座 -->
+    <path d="M24 85L30 92L36 85" stroke="#2C2F36" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  
+  <!-- 文字部分 -->
+  <text x="140" y="90" font-family="'Playfair Display', 'Noto Serif SC', serif" font-size="36" font-weight="600" fill="#2C2F36">
+    衡简叙约
+  </text>
+  
+  <text x="142" y="115" font-family="'Noto Sans SC', sans-serif" font-size="14" fill="#8A919A" letter-spacing="0.1em">
+    HENGSEEN
+  </text>
+  
+  <!-- Slogan -->
+  <text x="142" y="145" font-family="'Noto Sans SC', sans-serif" font-size="12" fill="#8A919A">
+    叙清交易事实，衡简商事契约
+  </text>
+</svg>

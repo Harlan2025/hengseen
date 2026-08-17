@@ -1,0 +1,1867 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>衡简叙约 Hengseen — 产品原型 V1.4</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+:root {
+  --charcoal: #2C2F36;
+  --charcoal-light: #3D414A;
+  --blue: #4A7C9B;
+  --blue-light: #5B8DB5;
+  --blue-pale: #E8F1F5;
+  --blue-mid: #D0E2EC;
+  --bg: #F7F8FA;
+  --border: #E8ECEF;
+  --muted: #8A919A;
+  --dark: #5A616A;
+  --white: #FFFFFF;
+  --danger: #C0392B;
+  --success: #27AE60;
+  --warning: #E67E22;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 3px rgba(44,47,54,0.06), 0 1px 2px rgba(44,47,54,0.04);
+  --shadow-md: 0 4px 16px rgba(44,47,54,0.08), 0 2px 4px rgba(44,47,54,0.04);
+  --shadow-lg: 0 12px 40px rgba(44,47,54,0.12);
+  --font-sans: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif: 'Playfair Display', 'Noto Serif SC', serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font-sans); background: var(--bg); color: var(--charcoal); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+button { cursor: pointer; font-family: inherit; }
+input, select, textarea { font-family: inherit; }
+
+/* ─── Page System ─── */
+.page { display: none; min-height: 100vh; }
+.page.active { display: block; }
+
+/* ═══════════════════════════════════════
+   PAGE 0: LANDING
+   ═══════════════════════════════════════ */
+.landing-hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 24px;
+  background: linear-gradient(180deg, var(--white) 0%, var(--blue-pale) 100%);
+  position: relative;
+  overflow: hidden;
+}
+.landing-hero::before {
+  content: '';
+  position: absolute;
+  top: -200px;
+  right: -200px;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(74,124,155,0.07) 0%, transparent 70%);
+}
+.brand-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 48px;
+}
+.logo-mark {
+  width: 64px;
+  height: 64px;
+  position: relative;
+}
+.logo-mark svg { width: 100%; height: 100%; }
+.brand-name {
+  font-family: var(--font-serif);
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--charcoal);
+  letter-spacing: 0.04em;
+}
+.brand-en {
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: 42px;
+  font-weight: 600;
+  color: var(--charcoal);
+  line-height: 1.3;
+  margin-bottom: 16px;
+}
+.hero-sub {
+  font-size: 18px;
+  color: var(--dark);
+  font-weight: 300;
+  margin-bottom: 40px;
+  max-width: 480px;
+}
+.hero-cta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+  transition: all 0.2s;
+}
+.btn-primary {
+  background: var(--charcoal);
+  color: var(--white);
+}
+.btn-primary:hover { background: var(--charcoal-light); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn-secondary {
+  background: var(--white);
+  color: var(--charcoal);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover { border-color: var(--blue); color: var(--blue); }
+.btn-blue {
+  background: var(--blue);
+  color: var(--white);
+}
+.btn-blue:hover { background: var(--blue-light); }
+.btn-sm { padding: 8px 16px; font-size: 13px; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.landing-features {
+  padding: 80px 24px;
+  background: var(--white);
+}
+.section-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 48px;
+  color: var(--charcoal);
+}
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 900px;
+  margin: 0 auto;
+  gap: 32px;
+}
+.feature-card {
+  padding: 28px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  text-align: left;
+  transition: box-shadow 0.2s;
+}
+.feature-card:hover { box-shadow: var(--shadow-md); }
+.feature-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: var(--blue-pale);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+.feature-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; color: var(--charcoal); }
+.feature-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+/* ═══════════════════════════════════════
+   PAGE 1: LOGIN / REGISTER
+   ═══════════════════════════════════════ */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, var(--white) 0%, var(--blue-pale) 100%);
+  padding: 24px;
+}
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 40px 32px;
+}
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.auth-brand .brand-name { font-size: 22px; }
+.auth-brand .brand-en { font-size: 11px; }
+.auth-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 28px;
+  border-bottom: 2px solid var(--border);
+}
+.auth-tab {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.2s;
+}
+.auth-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+.form-group { margin-bottom: 16px; }
+.form-label { display: block; font-size: 13px; font-weight: 500; color: var(--dark); margin-bottom: 6px; }
+.form-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  color: var(--charcoal);
+  background: var(--white);
+  transition: border-color 0.2s;
+  outline: none;
+}
+.form-input:focus { border-color: var(--blue); }
+.form-input::placeholder { color: var(--muted); }
+.form-row { display: flex; gap: 10px; }
+.form-row .form-input { flex: 1; }
+.send-code-btn {
+  padding: 10px 16px;
+  white-space: nowrap;
+  font-size: 13px;
+  background: var(--blue-pale);
+  color: var(--blue);
+  border: 1px solid var(--blue);
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.send-code-btn:hover { background: var(--blue); color: var(--white); }
+.send-code-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.agreement-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 20px 0;
+  font-size: 13px;
+  color: var(--dark);
+}
+.agreement-box input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  accent-color: var(--blue);
+  flex-shrink: 0;
+}
+.agreement-box a {
+  color: var(--blue);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.agreement-box a:hover { color: var(--blue-light); }
+.auth-submit {
+  width: 100%;
+  padding: 13px;
+  background: var(--charcoal);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.auth-submit:hover:not(:disabled) { background: var(--charcoal-light); }
+.auth-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+.auth-footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.auth-footer a { color: var(--blue); cursor: pointer; text-decoration: underline; }
+.wechat-login {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+  background: none;
+  border-left: none;
+  border-right: none;
+  width: 100%;
+  transition: color 0.2s;
+}
+.wechat-login:hover { color: var(--blue); }
+
+/* ═══════════════════════════════════════
+   MODAL
+   ═══════════════════════════════════════ */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(44,47,54,0.5);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.modal-overlay.active { display: flex; }
+.modal {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  max-width: 520px;
+  width: 100%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modalIn 0.2s ease;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.modal-header {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modal-header h3 { font-size: 16px; font-weight: 600; }
+.modal-close {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: none;
+  color: var(--muted);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.modal-close:hover { background: var(--bg); color: var(--charcoal); }
+.modal-body {
+  padding: 20px 24px;
+  overflow-y: auto;
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--dark);
+}
+.modal-body h4 { font-size: 15px; font-weight: 600; color: var(--charcoal); margin: 16px 0 8px; }
+.modal-body h4:first-child { margin-top: 0; }
+.modal-body p { margin-bottom: 10px; }
+.modal-body ul { padding-left: 18px; margin-bottom: 10px; }
+.modal-body li { margin-bottom: 4px; }
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* ═══════════════════════════════════════
+   PAGE 2: APP SHELL (Dashboard + Interview)
+   ═══════════════════════════════════════ */
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+.sidebar {
+  width: 220px;
+  background: var(--charcoal);
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+}
+.sidebar-brand {
+  padding: 20px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sidebar-brand .brand-name { font-size: 17px; color: var(--white); }
+.sidebar-brand .brand-en { font-size: 10px; color: rgba(255,255,255,0.4); }
+.sidebar-nav { flex: 1; padding: 12px 0; }
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  cursor: pointer;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-item:hover { color: var(--white); background: rgba(255,255,255,0.05); }
+.nav-item.active { color: var(--white); background: rgba(74,124,155,0.2); border-left-color: var(--blue); }
+.nav-item .nav-icon { width: 18px; text-align: center; font-size: 15px; }
+.sidebar-user {
+  padding: 16px 18px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--white);
+  flex-shrink: 0;
+}
+.main-content {
+  flex: 1;
+  margin-left: 220px;
+  display: flex;
+  flex-direction: column;
+}
+.topbar {
+  height: 56px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.topbar-left { display: flex; align-items: center; gap: 16px; }
+.topbar-title { font-size: 15px; font-weight: 600; color: var(--charcoal); }
+.sync-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--success);
+  padding: 4px 10px;
+  background: rgba(39,174,96,0.08);
+  border-radius: 20px;
+}
+.topbar-right { display: flex; align-items: center; gap: 12px; }
+.topbar-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--muted);
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.topbar-btn:hover { border-color: var(--blue); color: var(--blue); }
+
+.content-area { flex: 1; padding: 28px; overflow-y: auto; background: var(--bg); }
+
+/* Dashboard */
+.dash-banner {
+  height: 120px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--charcoal) 0%, var(--blue) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.7);
+  font-size: 14px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.dash-banner::after {
+  content: '';
+  position: absolute;
+  right: -40px;
+  top: -40px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.stat-card {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  border: 1px solid var(--border);
+}
+.stat-card .stat-label { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+.stat-card .stat-value { font-size: 28px; font-weight: 600; color: var(--charcoal); }
+.stat-card .stat-value.blue { color: var(--blue); }
+.stat-card .stat-value.red { color: var(--danger); }
+.stat-card .stat-value.green { color: var(--success); }
+
+.dash-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.card {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.card-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.card-header h3 { font-size: 14px; font-weight: 600; }
+.card-body { padding: 20px; }
+.chart-placeholder {
+  height: 200px;
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 8px;
+  padding: 20px;
+}
+.chart-bar {
+  width: 32px;
+  border-radius: 4px 4px 0 0;
+  background: var(--blue);
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+.chart-bar:hover { opacity: 1; }
+
+.alert-list { list-style: none; }
+.alert-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.alert-item:last-child { border-bottom: none; }
+.alert-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.alert-dot.red { background: var(--danger); }
+.alert-dot.yellow { background: var(--warning); }
+.alert-dot.blue { background: var(--blue); }
+.alert-item strong { color: var(--charcoal); }
+.alert-item span { color: var(--muted); margin-left: auto; white-space: nowrap; }
+.alert-item.urgent { background: rgba(192,57,43,0.04); margin: 0 -20px; padding: 10px 20px; border-radius: var(--radius-sm); }
+
+/* Interview Page */
+.interview-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 20px;
+  height: calc(100vh - 56px);
+  padding: 20px 28px;
+}
+.interview-chat {
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.chat-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.chat-header h3 { font-size: 14px; font-weight: 600; }
+.chat-status { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+.chat-status .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); }
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.msg {
+  max-width: 80%;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.msg-ai {
+  align-self: flex-start;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--charcoal);
+}
+.msg-user {
+  align-self: flex-end;
+  background: var(--charcoal);
+  color: var(--white);
+}
+.msg-system {
+  align-self: center;
+  background: var(--blue-pale);
+  color: var(--blue);
+  font-size: 12px;
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+.chat-input-area {
+  padding: 16px 20px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.command-hint {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.cmd-tag {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.cmd-tag:hover { border-color: var(--blue); color: var(--blue); }
+.chat-input-row { display: flex; gap: 10px; }
+.chat-input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  resize: none;
+  outline: none;
+  min-height: 44px;
+  max-height: 120px;
+  transition: border-color 0.2s;
+}
+.chat-input:focus { border-color: var(--blue); }
+.send-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: var(--charcoal);
+  color: var(--white);
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.send-btn:hover { background: var(--blue); }
+
+/* Side Panel */
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.panel-card {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.panel-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.panel-header h4 { font-size: 13px; font-weight: 600; }
+.panel-body { padding: 14px 16px; }
+.timeline { display: flex; flex-direction: column; gap: 0; }
+.timeline-item {
+  display: flex;
+  gap: 12px;
+  padding-bottom: 14px;
+  position: relative;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 16px;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
+}
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-item:last-child::before { display: none; }
+.timeline-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--blue);
+  flex-shrink: 0;
+  margin-top: 4px;
+  position: relative;
+  z-index: 1;
+}
+.timeline-dot.done { background: var(--success); }
+.timeline-dot.pending { background: var(--border); }
+.timeline-content { font-size: 12px; }
+.timeline-content .tl-title { font-weight: 500; color: var(--charcoal); }
+.timeline-content .tl-sub { color: var(--muted); margin-top: 2px; }
+
+.risk-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+.risk-item:last-child { border-bottom: none; }
+.risk-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.risk-dot.high { background: var(--danger); }
+.risk-dot.medium { background: var(--warning); }
+.risk-dot.low { background: var(--blue); }
+.risk-text { color: var(--dark); line-height: 1.5; }
+
+/* Project Selection */
+.project-select {
+  padding: 28px;
+}
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+.project-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.project-card:hover { border-color: var(--blue); box-shadow: var(--shadow-sm); transform: translateY(-2px); }
+.project-card .pc-type { font-size: 11px; color: var(--blue); font-weight: 500; margin-bottom: 6px; }
+.project-card .pc-name { font-size: 14px; font-weight: 600; color: var(--charcoal); margin-bottom: 4px; }
+.project-card .pc-date { font-size: 12px; color: var(--muted); }
+.new-project-card {
+  border: 2px dashed var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  color: var(--muted);
+  font-size: 14px;
+  background: var(--white);
+}
+.new-project-card:hover { border-color: var(--blue); color: var(--blue); }
+
+/* Type Selection */
+.type-select { padding: 28px; }
+.type-section { margin-bottom: 28px; }
+.type-section h3 { font-size: 14px; font-weight: 600; margin-bottom: 12px; color: var(--charcoal); }
+.type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+}
+.type-card {
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s;
+  background: var(--white);
+}
+.type-card:hover { border-color: var(--blue); }
+.type-card.selected { border-color: var(--blue); background: var(--blue-pale); }
+.type-card .tc-letter { font-family: var(--font-serif); font-size: 22px; font-weight: 600; color: var(--blue); }
+.type-card .tc-name { font-size: 12px; color: var(--dark); margin-top: 4px; }
+.type-card.selected .tc-letter { color: var(--charcoal); }
+.type-card.selected .tc-name { color: var(--charcoal); font-weight: 500; }
+
+/* Outline View */
+.outline-view { padding: 28px; }
+.outline-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+  cursor: grab;
+  transition: all 0.15s;
+}
+.outline-item:hover { border-color: var(--blue); box-shadow: var(--shadow-sm); }
+.outline-item.dragging { opacity: 0.5; }
+.outline-num { font-size: 12px; font-weight: 600; color: var(--muted); width: 24px; }
+.outline-title { font-size: 14px; font-weight: 500; flex: 1; }
+.outline-desc { font-size: 12px; color: var(--muted); }
+.outline-actions { display: flex; gap: 6px; }
+.outline-actions button {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--muted);
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.outline-actions button:hover { border-color: var(--blue); color: var(--blue); }
+
+/* ═══════════════════════════════════════
+   TOAST
+   ═══════════════════════════════════════ */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.toast {
+  padding: 12px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  box-shadow: var(--shadow-md);
+  animation: toastIn 0.3s ease;
+  max-width: 320px;
+}
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.toast.success { background: var(--success); color: var(--white); }
+.toast.error { background: var(--danger); color: var(--white); }
+.toast.info { background: var(--blue); color: var(--white); }
+.toast.warning { background: var(--warning); color: var(--white); }
+
+/* ═══════════════════════════════════════
+   PAGINATION
+   ═══════════════════════════════════════ */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 24px;
+}
+.page-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--dark);
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.page-btn:hover, .page-btn.active { border-color: var(--blue); color: var(--blue); }
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════ */
+@media (max-width: 900px) {
+  .feature-grid { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .dash-grid { grid-template-columns: 1fr; }
+  .interview-layout { grid-template-columns: 1fr; }
+  .sidebar { width: 60px; }
+  .sidebar .nav-item span, .sidebar-brand .brand-name, .sidebar-brand .brand-en, .sidebar-user { display: none; }
+  .main-content { margin-left: 60px; }
+}
+@media (max-width: 600px) {
+  .stats-row { grid-template-columns: 1fr; }
+  .type-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ TOAST ═══════════════ -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ═══════════════ MODAL ═══════════════ -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalTitle">协议内容</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal()">我知道了</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 0: LANDING ═══════════════ -->
+<div class="page active" id="pageLanding">
+  <div class="landing-hero">
+    <div class="brand-logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="8" width="18" height="48" rx="3" fill="#2C2F36"/>
+          <rect x="4" y="40" width="14" height="16" rx="2" fill="#2C2F36"/>
+          <rect x="14" y="20" width="42" height="6" rx="3" fill="url(#logoGrad)"/>
+          <rect x="38" y="14" width="16" height="18" rx="2" fill="white" stroke="#4A7C9B" stroke-width="1.5"/>
+          <path d="M50 14 L54 18 L54 32" stroke="#4A7C9B" stroke-width="1.5" fill="none"/>
+          <line x1="42" y1="20" x2="50" y2="20" stroke="#4A7C9B" stroke-width="1.5"/>
+          <line x1="42" y1="25" x2="50" y2="25" stroke="#4A7C9B" stroke-width="1.5"/>
+          <line x1="42" y1="30" x2="48" y2="30" stroke="#4A7C9B" stroke-width="1.5"/>
+          <defs>
+            <linearGradient id="logoGrad" x1="14" y1="23" x2="56" y2="23">
+              <stop offset="0%" stop-color="#4A7C9B"/>
+              <stop offset="100%" stop-color="#5B8DB5"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="brand-name">衡简叙约</div>
+      <div class="brand-en">Hengseen</div>
+    </div>
+    <h1 class="hero-title">叙清交易事实<br>衡简商事契约</h1>
+    <p class="hero-sub">访谈式智能合同生成系统，不依赖固定模板，基于真实业务场景动态构建契约框架</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary" onclick="navigateTo('pageRegister')">开始创建项目</button>
+      <button class="btn btn-secondary" onclick="navigateTo('pageLogin')">已有账号？登录</button>
+    </div>
+  </div>
+  <div class="landing-features">
+    <h2 class="section-title">核心能力</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h3>对话访谈・叙明事实</h3>
+        <p>摒弃枯燥表单，模拟法务访谈流程，一步步理清交易全部细节。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚖️</div>
+        <h3>权衡权责・识别风险</h3>
+        <p>梳理交易漏洞，直观呈现潜在法律风险，清晰划分各方权利义务。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📄</div>
+        <h3>动态构约・告别模板</h3>
+        <p>不套用固定范本，根据业务事实自动生成专属合同框架。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">☁️</div>
+        <h3>云端协同・三端互通</h3>
+        <p>网页、APP、微信小程序数据实时同步，随时随地接续起草项目。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>快捷指令・高效操作</h3>
+        <p>内置三条全局指令：/重置 /回溯 /导出，简化操作路径。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👨‍⚖️</div>
+        <h3>人工服务・专家对接</h3>
+        <p>一键联系签约专家，获取专业法律意见支持。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 1a: LOGIN ═══════════════ -->
+<div class="page" id="pageLogin">
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <svg width="32" height="32" viewBox="0 0 64 64" fill="none">
+          <rect x="4" y="8" width="18" height="48" rx="3" fill="#2C2F36"/>
+          <rect x="14" y="20" width="42" height="6" rx="3" fill="#4A7C9B"/>
+          <rect x="38" y="14" width="16" height="18" rx="2" fill="white" stroke="#4A7C9B" stroke-width="1.5"/>
+          <line x1="42" y1="20" x2="50" y2="20" stroke="#4A7C9B" stroke-width="1.5"/>
+          <line x1="42" y1="25" x2="50" y2="25" stroke="#4A7C9B" stroke-width="1.5"/>
+        </svg>
+        <div>
+          <div class="brand-name" style="font-size:20px">衡简叙约</div>
+          <div class="brand-en">HENGSEEN</div>
+        </div>
+      </div>
+      <div class="auth-tabs">
+        <button class="auth-tab" onclick="switchAuthTab('register')">注册</button>
+        <button class="auth-tab active" onclick="switchAuthTab('login')">登录</button>
+      </div>
+      <form onsubmit="handleAuth(event, 'login')">
+        <div class="form-group">
+          <label class="form-label">手机号</label>
+          <input type="tel" class="form-input" placeholder="请输入手机号" maxlength="11" id="loginPhone">
+        </div>
+        <div class="form-group">
+          <label class="form-label">验证码</label>
+          <div class="form-row">
+            <input type="text" class="form-input" placeholder="请输入验证码" maxlength="6" id="loginCode">
+            <button type="button" class="send-code-btn" id="sendCodeBtn" onclick="sendCode(this)">发送验证码</button>
+          </div>
+        </div>
+        <div class="agreement-box">
+          <input type="checkbox" id="loginAgree" onchange="checkAuthAgreement('login')">
+          <label for="loginAgree">我已阅读并同意 <a onclick="showAgreement('user')">《用户协议》</a> 和 <a onclick="showAgreement('privacy')">《隐私政策》</a></label>
+        </div>
+        <button type="submit" class="auth-submit" id="loginSubmit" disabled>立即登录</button>
+      </form>
+      <button type="button" class="wechat-login" onclick="showToast('微信扫码登录功能开发中', 'info')">
+        <span>📱</span> 微信一键登录
+      </button>
+      <div class="auth-footer">
+        还没有账号？<a onclick="switchAuthTab('register')">立即注册</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 1b: REGISTER ═══════════════ -->
+<div class="page" id="pageRegister">
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <svg width="32" height="32" viewBox="0 0 64 64" fill="none">
+          <rect x="4" y="8" width="18" height="48" rx="3" fill="#2C2F36"/>
+          <rect x="14" y="20" width="42" height="6" rx="3" fill="#4A7C9B"/>
+          <rect x="38" y="14" width="16" height="18" rx="2" fill="white" stroke="#4A7C9B" stroke-width="1.5"/>
+          <line x1="42" y1="20" x2="50" y2="20" stroke="#4A7C9B" stroke-width="1.5"/>
+          <line x1="42" y1="25" x2="50" y2="25" stroke="#4A7C9B" stroke-width="1.5"/>
+        </svg>
+        <div>
+          <div class="brand-name" style="font-size:20px">衡简叙约</div>
+          <div class="brand-en">HENGSEEN</div>
+        </div>
+      </div>
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchAuthTab('register')">注册</button>
+        <button class="auth-tab" onclick="switchAuthTab('login')">登录</button>
+      </div>
+      <form onsubmit="handleAuth(event, 'register')">
+        <div class="form-group">
+          <label class="form-label">手机号</label>
+          <input type="tel" class="form-input" placeholder="请输入手机号" maxlength="11" id="regPhone">
+        </div>
+        <div class="form-group">
+          <label class="form-label">验证码</label>
+          <div class="form-row">
+            <input type="text" class="form-input" placeholder="请输入验证码" maxlength="6" id="regCode">
+            <button type="button" class="send-code-btn" id="sendCodeBtnReg" onclick="sendCode(this)">发送验证码</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">昵称</label>
+          <input type="text" class="form-input" placeholder="请输入昵称" id="regNickname">
+        </div>
+        <div class="agreement-box">
+          <input type="checkbox" id="regAgree" onchange="checkAuthAgreement('register')">
+          <label for="regAgree">我已阅读并同意 <a onclick="showAgreement('user')">《用户协议》</a> 和 <a onclick="showAgreement('privacy')">《隐私政策》</a></label>
+        </div>
+        <button type="submit" class="auth-submit" id="regSubmit" disabled>立即注册</button>
+      </form>
+      <div class="auth-footer">
+        已有账号？<a onclick="switchAuthTab('login')">直接登录</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 3: DASHBOARD ═══════════════ -->
+<div class="page" id="pageDashboard">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <svg width="24" height="24" viewBox="0 0 64 64" fill="none">
+          <rect x="4" y="8" width="18" height="48" rx="3" fill="white" opacity="0.9"/>
+          <rect x="14" y="20" width="42" height="6" rx="3" fill="white" opacity="0.6"/>
+          <rect x="38" y="14" width="16" height="18" rx="2" fill="none" stroke="white" stroke-width="2" opacity="0.9"/>
+        </svg>
+        <div>
+          <div class="brand-name">衡简叙约</div>
+          <div class="brand-en">HENGSEEN</div>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-item active" onclick="navigateTo('pageDashboard')"><span class="nav-icon">📊</span><span>仪表盘</span></div>
+        <div class="nav-item" onclick="navigateTo('pageProjectList')"><span class="nav-icon">📁</span><span>我的项目</span></div>
+        <div class="nav-item" onclick="navigateTo('pageOutline')"><span class="nav-icon">📋</span><span>合同大纲</span></div>
+        <div class="nav-item" onclick="showToast('风险管理功能开发中','info')"><span class="nav-icon">⚠️</span><span>风险提示</span></div>
+        <div class="nav-item" onclick="showToast('专家团队功能开发中','info')"><span class="nav-icon">👥</span><span>专家团队</span></div>
+        <div class="nav-item" onclick="showToast('设置页开发中','info')"><span class="nav-icon">⚙️</span><span>设置</span></div>
+      </nav>
+      <div class="sidebar-user">
+        <div class="user-avatar">张</div>
+        <div>
+          <div style="color:var(--white);font-size:13px;font-weight:500">张三律师</div>
+          <div style="color:rgba(255,255,255,0.4);font-size:11px">管理员</div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <div class="topbar">
+        <div class="topbar-left">
+          <span class="topbar-title">仪表盘</span>
+          <div class="sync-status"><span class="dot" style="width:6px;height:6px;border-radius:50%;background:var(--success);display:inline-block"></span> 已同步</div>
+        </div>
+        <div class="topbar-right">
+          <button class="topbar-btn" onclick="showToast('搜索功能开发中','info')" title="搜索">🔍</button>
+          <button class="topbar-btn" onclick="showToast('通知功能开发中','info')" title="通知">🔔</button>
+          <button class="topbar-btn" onclick="navigateTo('pageLanding')" title="退出登录">🚪</button>
+        </div>
+      </div>
+
+      <div class="content-area">
+        <div class="dash-banner">
+          <div style="text-align:center;z-index:1">
+            <div style="font-size:18px;font-weight:600;color:rgba(255,255,255,0.9);margin-bottom:4px">叙清交易事实，衡简商事契约</div>
+            <div style="font-size:13px;color:rgba(255,255,255,0.5)">点击上传自定义横幅图片 · 一期仅本地存储</div>
+          </div>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-label">总案件数</div>
+            <div class="stat-value">24</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">已结案</div>
+            <div class="stat-value green">18</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">未结案</div>
+            <div class="stat-value blue">6</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">待收金额</div>
+            <div class="stat-value red">¥128,000</div>
+          </div>
+        </div>
+
+        <div class="dash-grid">
+          <div class="card">
+            <div class="card-header">
+              <h3>案件年度分布</h3>
+              <select style="font-size:12px;border:1px solid var(--border);border-radius:4px;padding:4px 8px;color:var(--dark)">
+                <option>案件年份</option>
+                <option>自然年度</option>
+              </select>
+            </div>
+            <div class="card-body">
+              <div class="chart-placeholder">
+                <div class="chart-bar" style="height:60px" title="2022: 3件"></div>
+                <div class="chart-bar" style="height:100px" title="2023: 5件"></div>
+                <div class="chart-bar" style="height:80px" title="2024: 4件"></div>
+                <div class="chart-bar" style="height:140px" title="2025: 7件"></div>
+                <div class="chart-bar" style="height:170px;background:var(--charcoal)" title="2026: 8件"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3>未结案预警</h3>
+              <button class="btn btn-sm btn-secondary" onclick="navigateTo('pageOutline')">查看全部</button>
+            </div>
+            <div class="card-body" style="padding:8px 0">
+              <ul class="alert-list">
+                <li class="alert-item urgent">
+                  <span class="alert-dot red"></span>
+                  <strong>合同纠纷案</strong>
+                  <span>开庭 2天后 · 8月18日</span>
+                </li>
+                <li class="alert-item">
+                  <span class="alert-dot yellow"></span>
+                  <strong>股权转让协议</strong>
+                  <span>举证期 5天后</span>
+                </li>
+                <li class="alert-item">
+                  <span class="alert-dot blue"></span>
+                  <strong>劳动争议案</strong>
+                  <span>下次开庭 12天后</span>
+                </li>
+                <li class="alert-item">
+                  <span class="alert-dot blue"></span>
+                  <strong>知识产权许可</strong>
+                  <span>缴费截止 18天后</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:20px">
+          <div class="card-header">
+            <h3>最近项目</h3>
+            <button class="btn btn-blue btn-sm" onclick="navigateTo('pageTypeSelect')">+ 新建项目</button>
+          </div>
+          <div class="card-body" style="padding:0">
+            <table style="width:100%;border-collapse:collapse;font-size:13px">
+              <thead>
+                <tr style="background:var(--bg);border-bottom:1px solid var(--border)">
+                  <th style="padding:10px 16px;text-align:left;color:var(--muted);font-weight:500">项目名称</th>
+                  <th style="padding:10px 16px;text-align:left;color:var(--muted);font-weight:500">类型</th>
+                  <th style="padding:10px 16px;text-align:left;color:var(--muted);font-weight:500">状态</th>
+                  <th style="padding:10px 16px;text-align:left;color:var(--muted);font-weight:500">更新时间</th>
+                  <th style="padding:10px 16px;text-align:right;color:var(--muted);font-weight:500">操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border);cursor:pointer" onclick="navigateTo('pageInterview')">
+                  <td style="padding:12px 16px;font-weight:500">房屋买卖合同</td>
+                  <td style="padding:12px 16px;color:var(--muted)">A 买卖 + G 担保</td>
+                  <td style="padding:12px 16px"><span style="background:var(--blue-pale);color:var(--blue);padding:2px 8px;border-radius:10px;font-size:11px">访谈中</span></td>
+                  <td style="padding:12px 16px;color:var(--muted)">2026-08-16</td>
+                  <td style="padding:12px 16px;text-align:right"><span style="color:var(--blue);cursor:pointer">进入 →</span></td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);cursor:pointer" onclick="navigateTo('pageInterview')">
+                  <td style="padding:12px 16px;font-weight:500">股权投资协议</td>
+                  <td style="padding:12px 16px;color:var(--muted)">C 资本 + D 合作</td>
+                  <td style="padding:12px 16px"><span style="background:rgba(39,174,96,0.1);color:var(--success);padding:2px 8px;border-radius:10px;font-size:11px">已完成</span></td>
+                  <td style="padding:12px 16px;color:var(--muted)">2026-08-14</td>
+                  <td style="padding:12px 16px;text-align:right"><span style="color:var(--blue);cursor:pointer">查看 →</span></td>
+                </tr>
+                <tr style="cursor:pointer" onclick="navigateTo('pageInterview')">
+                  <td style="padding:12px 16px;font-weight:500">劳动合同补充协议</td>
+                  <td style="padding:12px 16px;color:var(--muted)">E 人事 + F 知识产权</td>
+                  <td style="padding:12px 16px"><span style="background:rgba(39,174,96,0.1);color:var(--success);padding:2px 8px;border-radius:10px;font-size:11px">已完成</span></td>
+                  <td style="padding:12px 16px;color:var(--muted)">2026-08-10</td>
+                  <td style="padding:12px 16px;text-align:right"><span style="color:var(--blue);cursor:pointer">查看 →</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE: PROJECT LIST ═══════════════ -->
+<div class="page" id="pageProjectList">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <svg width="24" height="24" viewBox="0 0 64 64" fill="none">
+          <rect x="4" y="8" width="18" height="48" rx="3" fill="white" opacity="0.9"/>
+          <rect x="14" y="20" width="42" height="6" rx="3" fill="white" opacity="0.6"/>
+          <rect x="38" y="14" width="16" height="18" rx="2" fill="none" stroke="white" stroke-width="2" opacity="0.9"/>
+        </svg>
+        <div><div class="brand-name">衡简叙约</div><div class="brand-en">HENGSEEN</div></div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-item" onclick="navigateTo('pageDashboard')"><span class="nav-icon">📊</span><span>仪表盘</span></div>
+        <div class="nav-item active" onclick="navigateTo('pageProjectList')"><span class="nav-icon">📁</span><span>我的项目</span></div>
+        <div class="nav-item" onclick="navigateTo('pageOutline')"><span class="nav-icon">📋</span><span>合同大纲</span></div>
+        <div class="nav-item" onclick="showToast('风险管理功能开发中','info')"><span class="nav-icon">⚠️</span><span>风险提示</span></div>
+        <div class="nav-item" onclick="showToast('专家团队功能开发中','info')"><span class="nav-icon">👥</span><span>专家团队</span></div>
+        <div class="nav-item" onclick="showToast('设置页开发中','info')"><span class="nav-icon">⚙️</span><span>设置</span></div>
+      </nav>
+      <div class="sidebar-user"><div class="user-avatar">张</div><div><div style="color:var(--white);font-size:13px;font-weight:500">张三律师</div><div style="color:rgba(255,255,255,0.4);font-size:11px">管理员</div></div></div>
+    </aside>
+    <div class="main-content">
+      <div class="topbar">
+        <div class="topbar-left"><span class="topbar-title">我的项目</span></div>
+        <div class="topbar-right">
+          <div class="sync-status"><span style="width:6px;height:6px;border-radius:50%;background:var(--success);display:inline-block"></span> 已同步</div>
+          <button class="topbar-btn" onclick="navigateTo('pageLanding')">🚪</button>
+        </div>
+      </div>
+      <div class="content-area">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+          <div style="display:flex;gap:8px">
+            <input type="text" class="form-input" placeholder="搜索项目..." style="width:200px;padding:8px 12px;font-size:13px">
+            <select class="form-input" style="width:140px;padding:8px 12px;font-size:13px">
+              <option>全部类型</option><option>A 买卖</option><option>C 资本</option><option>E 人事</option>
+            </select>
+            <select class="form-input" style="width:140px;padding:8px 12px;font-size:13px">
+              <option>全部状态</option><option>访谈中</option><option>已完成</option><option>已归档</option>
+            </select>
+          </div>
+          <button class="btn btn-blue btn-sm" onclick="navigateTo('pageTypeSelect')">+ 新建项目</button>
+        </div>
+        <div class="project-grid">
+          <div class="project-card" onclick="navigateTo('pageInterview')">
+            <div class="pc-type">A 买卖 + G 担保</div>
+            <div class="pc-name">房屋买卖合同</div>
+            <div class="pc-date">2026-08-16 · 访谈中</div>
+          </div>
+          <div class="project-card" onclick="showToast('打开项目详情','info')">
+            <div class="pc-type">C 资本 + D 合作</div>
+            <div class="pc-name">股权投资协议</div>
+            <div class="pc-date">2026-08-14 · 已完成</div>
+          </div>
+          <div class="project-card" onclick="showToast('打开项目详情','info')">
+            <div class="pc-type">E 人事 + F 知识产权</div>
+            <div class="pc-name">劳动合同补充协议</div>
+            <div class="pc-date">2026-08-10 · 已完成</div>
+          </div>
+          <div class="project-card" onclick="showToast('打开项目详情','info')">
+            <div class="pc-type">A 买卖</div>
+            <div class="pc-name">设备采购合同</div>
+            <div class="pc-date">2026-07-28 · 已归档</div>
+          </div>
+          <div class="project-card" onclick="showToast('打开项目详情','info')">
+            <div class="pc-type">H 债权</div>
+            <div class="pc-name">债权转让协议</div>
+            <div class="pc-date">2026-07-15 · 已完成</div>
+          </div>
+          <div class="new-project-card" onclick="navigateTo('pageTypeSelect')">+ 新建项目</div>
+        </div>
+        <div class="pagination">
+          <button class="page-btn">‹</button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+          <button class="page-btn">›</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE: TYPE SELECT ═══════════════ -->
+<div class="page" id="pageTypeSelect">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <svg width="24" height="24" viewBox="0 0 64 64" fill="none">
+          <rect x="4" y="8" width="18" height="48" rx="3" fill="white" opacity="0.9"/>
+          <rect x="14" y="20" width="42" height="6" rx="3" fill="white" opacity="0.6"/>
+          <rect x="38" y="14" width="16" height="18" rx="2" fill="none" stroke="white" stroke-width="2" opacity="0.9"/>
+        </svg>
+        <div><div class="brand-name">衡简叙约</div><div class="brand-en">HENGSEEN</div></div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-item" onclick="navigateTo('pageDashboard')"><span class="nav-icon">📊</span><span>仪表盘</span></div>
+        <div class="nav-item" onclick="navigateTo('pageProjectList')"><span class="nav-icon">📁</span><span>我的项目</span></div>
+        <div class="nav-item" onclick="navigateTo('pageOutline')"><span class="nav-icon">📋</span><span>合同大纲</span></div>
+        <div class="nav-item" onclick="showToast('风险管理功能开发中','info')"><span class="nav-icon">⚠️</span><span>风险提示</span></div>
+        <div class="nav-item" onclick="showToast('专家团队功能开发中','info')"><span class="nav-icon">👥</span><span>专家团队</span></div>
+        <div class="nav-item" onclick="showToast('设置页开发中','info')"><span class="nav-icon">⚙️</span><span>设置</span></div>
+      </nav>
+      <div class="sidebar-user"><div class="user-avatar">张</div><div><div style="color:var(--white);font-size:13px;font-weight:500">张三律师</div><div style="color:rgba(255,255,255,0.4);font-size:11px">管理员</div></div></div>
+    </aside>
+    <div class="main-content">
+      <div class="topbar">
+        <div class="topbar-left"><span class="topbar-title">新建项目 · 选择文件类型</span><button class="btn btn-sm btn-secondary" onclick="navigateTo('pageProjectList')">← 返回</button></div>
+        <div class="topbar-right"><button class="topbar-btn" onclick="navigateTo('pageLanding')">🚪</button></div>
+      </div>
+      <div class="type-select">
+        <div class="type-section">
+          <h3>第一步：选择主类型 <span style="font-weight:400;color:var(--muted);font-size:12px">（必填，决定访谈框架）</span></h3>
+          <div class="type-grid" id="mainTypeGrid">
+            <div class="type-card" onclick="selectMainType(this,'A')"><div class="tc-letter">A</div><div class="tc-name">买卖合同</div></div>
+            <div class="type-card" onclick="selectMainType(this,'B')"><div class="tc-letter">B</div><div class="tc-name">备忘录/意向书</div></div>
+            <div class="type-card" onclick="selectMainType(this,'C')"><div class="tc-letter">C</div><div class="tc-name">资本交易</div></div>
+            <div class="type-card" onclick="selectMainType(this,'D')"><div class="tc-letter">D</div><div class="tc-name">合作协议</div></div>
+            <div class="type-card" onclick="selectMainType(this,'E')"><div class="tc-letter">E</div><div class="tc-name">人事劳务</div></div>
+            <div class="type-card" onclick="selectMainType(this,'F')"><div class="tc-letter">F</div><div class="tc-name">知识产权</div></div>
+            <div class="type-card" onclick="selectMainType(this,'G')"><div class="tc-letter">G</div><div class="tc-name">担保文件</div></div>
+            <div class="type-card" onclick="selectMainType(this,'H')"><div class="tc-letter">H</div><div class="tc-name">债权债务</div></div>
+            <div class="type-card" onclick="selectMainType(this,'I')"><div class="tc-letter">I</div><div class="tc-name">委托居间</div></div>
+            <div class="type-card" onclick="selectMainType(this,'J')"><div class="tc-letter">J</div><div class="tc-name">终止清算</div></div>
+          </div>
+        </div>
+        <div class="type-section" id="attachSection" style="opacity:0.4;pointer-events:none">
+          <h3>第二步：添加附属类型 <span style="font-weight:400;color:var(--muted);font-size:12px">（可选，最多2个）</span></h3>
+          <div class="type-grid" id="attachTypeGrid"></div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;gap:12px;margin-top:28px">
+          <button class="btn btn-secondary" onclick="navigateTo('pageProjectList')">取消</button>
+          <button class="btn btn-primary" id="startInterviewBtn" onclick="startInterview()" disabled>开始访谈</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE: INTERVIEW ═══════════════ -->
+<div class="page" id="pageInterview">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <svg width="24" height="24" viewBox="0 0 64 64" fill="none">
+          <rect x="4" y="8" width="18" height="48" rx="3" fill="white" opacity="0.9"/>
+          <rect x="14" y="20" width="42" height="6" rx="3" fill="white" opacity="0.6"/>
+          <rect x="38" y="14" width="16" height="18" rx="2" fill="none" stroke="white" stroke-width="2" opacity="0.9"/>
+        </svg>
+        <div><div class="brand-name">衡简叙约</div><div class="brand-en">HENGSEEN</div></div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-item" onclick="navigateTo('pageDashboard')"><span class="nav-icon">📊</span><span>仪表盘</span></div>
+        <div class="nav-item" onclick="navigateTo('pageProjectList')"><span class="nav-icon">📁</span><span>我的项目</span></div>
+        <div class="nav-item active" onclick="navigateTo('pageInterview')"><span class="nav-icon">💬</span><span>当前访谈</span></div>
+        <div class="nav-item" onclick="navigateTo('pageOutline')"><span class="nav-icon">📋</span><span>合同大纲</span></div>
+        <div class="nav-item" onclick="showToast('风险提示页开发中','info')"><span class="nav-icon">⚠️</span><span>风险提示</span></div>
+      </nav>
+      <div class="sidebar-user"><div class="user-avatar">张</div><div><div style="color:var(--white);font-size:13px;font-weight:500">张三律师</div><div style="color:rgba(255,255,255,0.4);font-size:11px">管理员</div></div></div>
+    </aside>
+
+    <div class="main-content" style="padding:0;overflow:hidden">
+      <div class="topbar" style="border-bottom:1px solid var(--border)">
+        <div class="topbar-left">
+          <button class="btn btn-sm btn-secondary" onclick="navigateTo('pageProjectList')" style="padding:6px 12px;font-size:12px">← 返回</button>
+          <span class="topbar-title">房屋买卖合同</span>
+          <span style="font-size:12px;color:var(--muted);background:var(--blue-pale);padding:2px 8px;border-radius:10px">A 买卖 + G 担保</span>
+        </div>
+        <div class="topbar-right">
+          <div class="sync-status"><span style="width:6px;height:6px;border-radius:50%;background:var(--warning);display:inline-block"></span> 保存中</div>
+          <button class="topbar-btn" onclick="navigateTo('pageLanding')">🚪</button>
+        </div>
+      </div>
+
+      <div class="interview-layout" style="padding:16px 20px;gap:16px;height:calc(100vh - 56px)">
+        <!-- Chat Area -->
+        <div class="interview-chat">
+          <div class="chat-header">
+            <h3>💬 访谈对话</h3>
+            <div class="chat-status"><span class="dot"></span> AI 访谈助手</div>
+          </div>
+          <div class="chat-messages" id="chatMessages">
+            <div class="msg msg-ai">您好！我是衡简叙约的访谈助手。我将通过多轮对话，帮您梳理这份房屋买卖合同的完整交易事实。我们开始吧。</div>
+            <div class="msg msg-ai">请问您与买方之间关于这套房产的**转让价格**是如何约定的？请以万元为单位说明。</div>
+            <div class="msg msg-user">双方约定转让价格为 350 万元。</div>
+            <div class="msg msg-ai">好的，已记录。**转让价格：350万元**。<br><br>接下来请问，这笔款项的**支付方式**是分期付款还是一次性支付？如果是分期，各期金额和时间节点是如何约定的？</div>
+            <div class="msg msg-system">💡 输入 /重置 可清空当前访谈 · /导出 可导出文档</div>
+          </div>
+          <div class="chat-input-area">
+            <div class="command-hint">
+              <span class="cmd-tag" onclick="insertCommand('/重置')">/重置</span>
+              <span class="cmd-tag" onclick="insertCommand('/回溯')">/回溯</span>
+              <span class="cmd-tag" onclick="insertCommand('/导出')">/导出</span>
+              <span class="cmd-tag" onclick="showToast('专家联系：张律师 138****5678','info')">联系专家</span>
+            </div>
+            <div class="chat-input-row">
+              <textarea class="chat-input" id="chatInput" placeholder="输入您的回答，或输入 / 使用指令..." rows="2" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"></textarea>
+              <button class="send-btn" onclick="sendMessage()">➤</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Side Panel -->
+        <div class="side-panel">
+          <div class="panel-card">
+            <div class="panel-header">
+              <h4>📋 访谈进度</h4>
+              <span style="font-size:11px;color:var(--muted)">3/10</span>
+            </div>
+            <div class="panel-body">
+              <div class="timeline">
+                <div class="timeline-item"><div class="timeline-dot done"></div><div class="timeline-content"><div class="tl-title">转让价格</div><div class="tl-sub">350万元 ✓</div></div></div>
+                <div class="timeline-item"><div class="timeline-dot done"></div><div class="timeline-content"><div class="tl-title">付款方式</div><div class="tl-sub">分期付款 ✓</div></div></div>
+                <div class="timeline-item"><div class="timeline-dot done"></div><div class="timeline-content"><div class="tl-title">付款节点</div><div class="tl-sub">已确认 ✓</div></div></div>
+                <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="tl-title">交房时间</div><div class="tl-sub">待确认</div></div></div>
+                <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="tl-title">过户安排</div><div class="tl-sub">待确认</div></div></div>
+                <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="tl-title">违约责任</div><div class="tl-sub">待确认</div></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-header">
+              <h4>⚠️ 风险提示</h4>
+              <span style="font-size:11px;color:var(--warning)">2条</span>
+            </div>
+            <div class="panel-body">
+              <div class="risk-item"><span class="risk-dot high"></span><span class="risk-text">付款方式尚未明确尾款支付条件，建议补充逾期付款违约责任条款。</span></div>
+              <div class="risk-item"><span class="risk-dot medium"></span><span class="risk-text">担保条款尚未确认，建议明确抵押物及担保范围。</span></div>
+            </div>
+          </div>
+
+          <div class="panel-card" style="margin-top:auto">
+            <div class="panel-body" style="text-align:center">
+              <button class="btn btn-blue" style="width:100%" onclick="navigateTo('pageOutline')">查看生成大纲 →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE: OUTLINE ═══════════════ -->
+<div class="page" id="pageOutline">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <svg width="24" height="24" viewBox="0 0 64 64" fill="none">
+          <rect x="4" y="8" width="18" height="48" rx="3" fill="white" opacity="0.9"/>
+          <rect x="14" y="20" width="42" height="6" rx="3" fill="white" opacity="0.6"/>
+          <rect x="38" y="14" width="16" height="18" rx="2" fill="none" stroke="white" stroke-width="2" opacity="0.9"/>
+        </svg>
+        <div><div class="brand-name">衡简叙约</div><div class="brand-en">HENGSEEN</div></div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-item" onclick="navigateTo('pageDashboard')"><span class="nav-icon">📊</span><span>仪表盘</span></div>
+        <div class="nav-item" onclick="navigateTo('pageProjectList')"><span class="nav-icon">📁</span><span>我的项目</span></div>
+        <div class="nav-item active" onclick="navigateTo('pageOutline')"><span class="nav-icon">📋</span><span>合同大纲</span></div>
+        <div class="nav-item" onclick="navigateTo('pageInterview')"><span class="nav-icon">💬</span><span>继续访谈</span></div>
+      </nav>
+      <div class="sidebar-user"><div class="user-avatar">张</div><div><div style="color:var(--white);font-size:13px;font-weight:500">张三律师</div><div style="color:rgba(255,255,255,0.4);font-size:11px">管理员</div></div></div>
+    </aside>
+    <div class="main-content">
+      <div class="topbar">
+        <div class="topbar-left">
+          <span class="topbar-title">合同大纲</span>
+          <span style="font-size:12px;color:var(--success);background:rgba(39,174,96,0.1);padding:3px 10px;border-radius:10px">AI已生成</span>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-sm btn-secondary" onclick="navigateTo('pageInterview')">← 继续访谈</button>
+          <button class="btn btn-sm btn-blue" onclick="showToast('合同文本生成中，请稍候...','info')">生成合同文本</button>
+          <button class="btn btn-sm btn-secondary" onclick="showToast('导出功能开发中','info')">📥 导出</button>
+          <button class="topbar-btn" onclick="navigateTo('pageLanding')">🚪</button>
+        </div>
+      </div>
+      <div class="content-area">
+        <div style="max-width:800px">
+          <div class="card" style="margin-bottom:20px">
+            <div class="card-header">
+              <h3>📄 合同框架大纲</h3>
+              <div style="display:flex;gap:8px">
+                <button class="btn btn-sm btn-secondary" onclick="showToast('拖拽排序功能开发中','info')">↕ 调整顺序</button>
+                <button class="btn btn-sm btn-blue" onclick="showToast('新增章节功能开发中','info')">+ 新增章节</button>
+              </div>
+            </div>
+            <div class="card-body" style="padding:12px">
+              <div class="outline-item">
+                <span class="outline-num">01</span>
+                <div style="flex:1"><div class="outline-title">当事人信息</div><div class="outline-desc">卖方、买方基本信息及联系方式</div></div>
+                <div class="outline-actions"><button title="编辑" onclick="showToast('编辑章节','info')">✏️</button><button title="删除" onclick="showToast('此为基础章节，不可删除','warning')">🗑</button></div>
+              </div>
+              <div class="outline-item">
+                <span class="outline-num">02</span>
+                <div style="flex:1"><div class="outline-title">标的物描述</div><div class="outline-desc">房产位置、面积、产权证号等详细信息</div></div>
+                <div class="outline-actions"><button onclick="showToast('编辑章节','info')">✏️</button><button onclick="showToast('此为基础章节，不可删除','warning')">🗑</button></div>
+              </div>
+              <div class="outline-item">
+                <span class="outline-num">03</span>
+                <div style="flex:1"><div class="outline-title">转让价格与支付方式</div><div class="outline-desc">总价350万元，分期付款安排</div></div>
+                <div class="outline-actions"><button onclick="showToast('编辑章节','info')">✏️</button><button onclick="showToast('此为基础章节，不可删除','warning')">🗑</button></div>
+              </div>
+              <div class="outline-item" style="border-color:var(--blue);background:var(--blue-pale)">
+                <span class="outline-num">04</span>
+                <div style="flex:1"><div class="outline-title">【用户自定义】特殊约定</div><div class="outline-desc">房屋内家具家电随房赠送清单</div></div>
+                <div class="outline-actions"><button onclick="showToast('编辑自定义内容','info')">✏️</button><button onclick="showToast('已删除自定义内容','success')">🗑</button></div>
+              </div>
+              <div class="outline-item">
+                <span class="outline-num">05</span>
+                <div style="flex:1"><div class="outline-title">交房与过户</div><div class="outline-desc">交房时间、过户手续办理安排</div></div>
+                <div class="outline-actions"><button onclick="showToast('编辑章节','info')">✏️</button><button onclick="showToast('此为基础章节，不可删除','warning')">🗑</button></div>
+              </div>
+              <div class="outline-item">
+                <span class="outline-num">06</span>
+                <div style="flex:1"><div class="outline-title">担保条款</div><div class="outline-desc">买方分期付款的担保安排（附属类型G）</div></div>
+                <div class="outline-actions"><button onclick="showToast('编辑章节','info')">✏️</button><button onclick="showToast('此为基础章节，不可删除','warning')">🗑</button></div>
+              </div>
+              <div class="outline-item">
+                <span class="outline-num">07</span>
+                <div style="flex:1"><div class="outline-title">违约责任</div><div class="outline-desc">逾期付款、逾期交房违约责任</div></div>
+                <div class="outline-actions"><button onclick="showToast('编辑章节','info')">✏️</button><button onclick="showToast('此为基础章节，不可删除','warning')">🗑</button></div>
+              </div>
+              <div class="outline-item">
+                <span class="outline-num">08</span>
+                <div style="flex:1"><div class="outline-title">争议解决</div><div class="outline-desc">管辖法院约定</div></div>
+                <div class="outline-actions"><button onclick="showToast('编辑章节','info')">✏️</button><button onclick="showToast('此为基础章节，不可删除','warning')">🗑</button></div>
+              </div>
+              <div class="outline-item">
+                <span class="outline-num">09</span>
+                <div style="flex:1"><div class="outline-title">风险提示</div><div class="outline-desc">⚠️ 付款方式尚未明确尾款支付条件<br>⚠️ 担保条款尚未确认抵押物</div></div>
+                <div class="outline-actions"><button onclick="showToast('编辑章节','info')">✏️</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><h3>📝 自定义内容</h3></div>
+            <div class="card-body">
+              <div style="font-size:13px;color:var(--dark);padding:12px;background:var(--blue-pale);border-radius:var(--radius-sm);margin-bottom:12px">
+                【用户自定义】房屋内附赠家具家电清单：客厅空调2台、卧室空调3台、冰箱1台、洗衣机1台、沙发套装1套、餐桌椅1套。详见附件清单。
+              </div>
+              <button class="btn btn-sm btn-secondary" onclick="showToast('插入自定义内容弹窗开发中','info')">+ 插入自定义内容</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+// ─── Navigation ───
+function navigateTo(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const page = document.getElementById(pageId);
+  if (page) page.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ─── Toast ───
+function showToast(msg, type='info') {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.textContent = msg;
+  container.appendChild(toast);
+  setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; setTimeout(() => toast.remove(), 300); }, 3000);
+}
+
+// ─── Modal ───
+function openModal(title, html) {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalBody').innerHTML = html;
+  document.getElementById('modalOverlay').classList.add('active');
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+}
+const agreements = {
+  user: `<h4>第一条 服务简介</h4><p>衡简叙约（Hengseen）是由北京衡简科技有限公司提供的访谈式智能合同生成服务。用户通过对话访谈方式，由AI助手采集交易事实，动态生成定制化商事法律文书。</p><h4>第二条 用户行为准则</h4><p>用户应当遵守国家法律法规，不得利用本服务从事违法活动。用户对其使用本服务产生的任何后果承担责任。</p><h4>第三条 服务内容</h4><p>本服务包括但不限于：AI访谈对话、合同框架生成、风险提示、文档导出等功能。具体功能以产品实际提供为准。</p><h4>第四条 免责条款</h4><p>本系统生成的合同文本仅供参考，不构成法律意见。重大交易请务必咨询专业律师。衡简公司不对用户因使用本服务而产生的任何间接损失承担责任。</p>`,
+  privacy: `<h4>第一条 信息收集</h4><p>我们仅收集提供服务所必需的信息，包括：手机号、昵称、项目数据、访谈对话记录等。我们不会收集身份证、银行卡等敏感个人信息。</p><h4>第二条 信息使用</h4><p>收集的信息仅用于：①提供和改善服务 ②用户账号管理 ③合同生成服务 ④客户服务沟通。</p><h4>第三条 信息保护</h4><p>我们采用HTTPS加密传输、Supabase RLS行级安全策略保障数据安全。用户的合同数据仅本人可见，不会向第三方泄露。</p><h4>第四条 用户权利</h4><p>用户可随时删除自己的项目数据。用户可申请导出个人数据或删除个人数据（「被遗忘权」）。</p><h4>第五条 儿童隐私</h4><p>本服务不面向14周岁以下儿童。如误收集儿童信息，将在核实后立即删除。</p>`
+};
+function showAgreement(type) {
+  openModal(type === 'user' ? '《用户协议》' : '《隐私政策》', agreements[type] || '');
+}
+
+// ─── Auth Tab Switch ───
+function switchAuthTab(tab) {
+  document.querySelectorAll('.auth-tab').forEach((t, i) => {
+    t.classList.toggle('active', (tab === 'register' && i === 0) || (tab === 'login' && i === 1));
+  });
+  if (tab === 'register') navigateTo('pageRegister');
+  else navigateTo('pageLogin');
+}
+
+// ─── Agreement Check ───
+function checkAuthAgreement(type) {
+  const checked = document.getElementById(type === 'register' ? 'regAgree' : 'loginAgree').checked;
+  document.getElementById(type === 'register' ? 'regSubmit' : 'loginSubmit').disabled = !checked;
+}
+
+// ─── Send Code ───
+function sendCode(btn) {
+  btn.disabled = true;
+  let sec = 60;
+  btn.textContent = `${sec}s`;
+  const timer = setInterval(() => {
+    sec--;
+    if (sec <= 0) { clearInterval(timer); btn.textContent = '发送验证码'; btn.disabled = false; }
+    else btn.textContent = `${sec}s`;
+  }, 1000);
+  showToast('验证码已发送（模拟）', 'success');
+}
+
+// ─── Handle Auth ───
+function handleAuth(e, type) {
+  e.preventDefault();
+  const phone = type === 'register' ? document.getElementById('regPhone').value : document.getElementById('loginPhone').value;
+  const code = type === 'register' ? document.getElementById('regCode').value : document.getElementById('loginCode').value;
+  const agreed = document.getElementById(type === 'register' ? 'regAgree' : 'loginAgree').checked;
+  if (!agreed) { showToast('请先阅读并同意用户协议和隐私政策', 'error'); return; }
+  if (!phone || phone.length < 11) { showToast('请输入正确的手机号', 'error'); return; }
+  if (!code || code.length < 4) { showToast('请输入验证码', 'error'); return; }
+  if (type === 'register') {
+    const nickname = document.getElementById('regNickname').value;
+    if (!nickname) { showToast('请输入昵称', 'error'); return; }
+  }
+  showToast(type === 'register' ? '注册成功！欢迎使用衡简叙约' : '登录成功！欢迎回来', 'success');
+  setTimeout(() => navigateTo('pageDashboard'), 800);
+}
+
+// ─── Type Selection ───
+let selectedMainType = null;
+let selectedAttachTypes = [];
+const validAttaches = {
+  A: ['B', 'G', 'H', 'I'], B: ['A', 'C', 'D'], C: ['D', 'G', 'A', 'I'],
+  D: ['C', 'F'], E: ['F', 'G'], F: ['G', 'H'], G: ['C', 'H'], I: ['A', 'D']
+};
+const typeNames = { A:'买卖', B:'备忘录', C:'资本', D:'合作', E:'人事', F:'知识产权', G:'担保', H:'债权', I:'居间', J:'终止清算' };
+
+function selectMainType(el, letter) {
+  document.querySelectorAll('#mainTypeGrid .type-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedMainType = letter;
+  selectedAttachTypes = [];
+  document.querySelectorAll('#attachTypeGrid .type-card').forEach(c => c.classList.remove('selected'));
+
+  const attachGrid = document.getElementById('attachTypeGrid');
+  attachGrid.innerHTML = '';
+  const valid = validAttaches[letter] || [];
+  valid.forEach(a => {
+    const card = document.createElement('div');
+    card.className = 'type-card';
+    card.innerHTML = `<div class="tc-letter">${a}</div><div class="tc-name">${typeNames[a]}</div>`;
+    card.onclick = () => toggleAttach(card, a);
+    attachGrid.appendChild(card);
+  });
+
+  const section = document.getElementById('attachSection');
+  section.style.opacity = valid.length > 0 ? '1' : '0.4';
+  section.style.pointerEvents = valid.length > 0 ? 'auto' : 'none';
+  document.getElementById('startInterviewBtn').disabled = false;
+}
+
+function toggleAttach(el, letter) {
+  const idx = selectedAttachTypes.indexOf(letter);
+  if (idx >= 0) {
+    selectedAttachTypes.splice(idx, 1);
+    el.classList.remove('selected');
+  } else {
+    if (selectedAttachTypes.length >= 2) { showToast('最多选择2个附属类型', 'warning'); return; }
+    selectedAttachTypes.push(letter);
+    el.classList.add('selected');
+  }
+}
+
+function startInterview() {
+  if (!selectedMainType) { showToast('请选择主类型', 'warning'); return; }
+  showToast(`已创建项目：${typeNames[selectedMainType]}合同`, 'success');
+  setTimeout(() => navigateTo('pageInterview'), 600);
+}
+
+// ─── Chat ───
+function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  if (text.startsWith('/')) {
+    handleCommand(text);
+    return;
+  }
+  const msgs = document.getElementById('chatMessages');
+  const userMsg = document.createElement('div');
+  userMsg.className = 'msg msg-user';
+  userMsg.textContent = text;
+  msgs.appendChild(userMsg);
+  input.style.height = 'auto';
+  input.style.height = Math.min(input.scrollHeight, 120) + 'px';
+
+  // Simulate AI response
+  const aiMsg = document.createElement('div');
+  aiMsg.className = 'msg msg-ai';
+  aiMsg.innerHTML = '<span style="opacity:0.6">思考中...</span>';
+  msgs.appendChild(aiMsg);
+  msgs.scrollTop = msgs.scrollHeight;
+
+  setTimeout(() => {
+    aiMsg.innerHTML = '感谢您的回答。我已记录相关信息。接下来请问，双方约定的<strong>交房时间</strong>是什么时候？如需变更请说明原因。';
+    msgs.scrollTop = msgs.scrollHeight;
+  }, 1200);
+}
+
+function insertCommand(cmd) {
+  document.getElementById('chatInput').value = cmd;
+  document.getElementById('chatInput').focus();
+}
+
+function handleCommand(cmd) {
+  const msgs = document.getElementById('chatMessages');
+  if (cmd === '/重置') {
+    msgs.innerHTML = '<div class="msg msg-system">已重置访谈状态，请重新开始</div>';
+    showToast('访谈已重置', 'info');
+  } else if (cmd === '/回溯') {
+    openModal('时光机 · 历史快照', '<p>当前访谈共3条记录</p><p>最新快照：确认价格350万 + 分期付款</p><p style="color:var(--muted);font-size:13px;margin-top:12px">回溯功能开发中，敬请期待</p>');
+  } else if (cmd === '/导出') {
+    showToast('导出需要登录，即将跳转登录页...', 'info');
+    setTimeout(() => navigateTo('pageLogin'), 1000);
+  } else {
+    showToast('未知指令，可用指令：/重置 /回溯 /导出', 'warning');
+  }
+}
+
+// Auto-resize textarea
+document.addEventListener('DOMContentLoaded', () => {
+  const ta = document.getElementById('chatInput');
+  if (ta) {
+    ta.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+    });
+  }
+});
+</script>
+</body>
+</html>

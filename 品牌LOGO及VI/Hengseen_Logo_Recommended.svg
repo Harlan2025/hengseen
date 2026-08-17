@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="200" viewBox="0 0 400 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景 -->
+  <rect width="400" height="200" fill="#F7F8FA"/>
+  
+  <!-- Logo 图形 -->
+  <g transform="translate(40, 40)">
+    <!-- 圆形外框 -->
+    <circle cx="50" cy="50" r="45" stroke="#2C2F36" stroke-width="2.5" fill="none"/>
+    
+    <!-- 左侧对话气泡 -->
+    <path d="M8 40C8 34.477 12.477 30 18 30H38C43.523 30 48 34.477 48 40V55C48 60.523 43.523 65 38 65H31L25 71V65H18C12.477 65 8 60.523 8 55V40Z" 
+          fill="#4A7C9B" opacity="0.2" stroke="#4A7C9B" stroke-width="2"/>
+    
+    <!-- 右侧对话气泡 -->
+    <path d="M52 40C52 34.477 56.477 30 62 30H82C87.523 30 92 34.477 92 40V55C92 60.523 87.523 65 82 65H69L63 71V65H62C56.477 65 52 60.523 52 55V40Z" 
+          fill="#4A7C9B" opacity="0.2" stroke="#4A7C9B" stroke-width="2"/>
+    
+    <!-- 中心平衡圆 -->
+    <circle cx="50" cy="50" r="12" fill="#4A7C9B"/>
+    
+    <!-- 连接线 -->
+    <line x1="38" y1="50" x2="38" y2="50" stroke="#2C2F36" stroke-width="2" stroke-linecap="round"/>
+    <line x1="62" y1="50" x2="62" y2="50" stroke="#2C2F36" stroke-width="2" stroke-linecap="round"/>
+    
+    <!-- 契约弧线 -->
+    <path d="M20 80 Q50 95 80 80" stroke="#2C2F36" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M25 88 Q50 100 75 88" stroke="#4A7C9B" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.6"/>
+  </g>
+  
+  <!-- 文字部分 -->
+  <text x="170" y="85" font-family="'Noto Sans SC', sans-serif" font-size="36" font-weight="600" fill="#2C2F36" letter-spacing="0.05em">
+    衡简叙约
+  </text>
+  
+  <text x="172" y="110" font-family="'Noto Sans SC', sans-serif" font-size="14" fill="#8A919A" letter-spacing="0.15em">
+    HENGSEEN
+  </text>
+  
+  <!-- Slogan -->
+  <text x="172" y="140" font-family="'Noto Sans SC', sans-serif" font-size="12" fill="#8A919A">
+    叙清交易事实，衡简商事契约
+  </text>
+</svg>
