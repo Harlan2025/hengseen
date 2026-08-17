@@ -1,6 +1,66 @@
-node_modules/
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
 dist/
-.DS_Store
-*.log
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv
+
+# Environment Variables
 .env
-.env.local
+.env.*
+!.env.example
+!.env.production
+!.env.development
+backend/.env.fly
+frontend/.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+frontend/dist/
+frontend/.cache/
+
+# Logs
+*.log
+logs/
+
+# Secrets
+*.pem
+*.key
+.github/credentials/
+
+# Deployment
+fly.toml.bak
+*.zip
+*.tar.gz
