@@ -1,0 +1,25 @@
+name: Manual Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy_environment:
+        description: '部署环境'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - staging
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Deploy to Railway
+        run: |
+          echo "Manual deployment triggered"
+          echo "Environment: ${{ github.event.inputs.deploy_environment }}"
+          # This would be connected to Railway API in real scenario
