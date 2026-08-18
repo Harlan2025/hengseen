@@ -211,13 +211,56 @@ async def get_project_check(user_id: str, project_id: str) -> dict:
 
 async def generate_interview_question(project: dict, step: int, last_snapshot: dict = None) -> dict:
     """调用AI生成下一个访谈问题"""
-    # TODO: 实现AI调用逻辑
-    # 这里简化处理，返回模拟问题
-    return {
-        "text": f"请描述{project['primary_type']}交易的具体情况...",
-        "category": "fact_gathering",
-        "context": {"step": step}
-    }
+    from services.ai_service import ai_service
+
+    # 构建已确认要素的文本
+    confirmed_text = ""
+    if last_snapshot and last_snapshot.get("confirmed_elements"):
+        confirmed_text = "\n已确认要素：\n"
+        for elem in last_snapshot["confirmed_elements"]:
+            confirmed_text += f"- {elem.get('element', '')}: {elem.get('value', '')}\n"
+
+    # 构建待确认要素的文本
+    pending_text = ""
+    if last_snapshot and last_snapshot.get("pending_elements"):
+        pending_text = "\n待确认要素：\n"
+        for elem in last_snapshot["pending_elements"]:
+            pending_text += f"- {elem.get('element', '')}: {elem.get('reason', '')}\n"
+
+    prompt = f"""你是一位专业的法务访谈助手，正在帮助用户完成合同起草访谈。
+
+【项目信息】
+- 主类型：{project.get('primary_type', '未知')}
+- 附属类型：{', '.join(project.get('secondary_types', [])) if project.get('secondary_types') else '无'}
+
+【已确认的事实】{confirmed_text if confirmed_text else '无'}
+
+【待确认的事项】{pending_text if pending_text else '无'}
+
+【当前步骤】第 {step} 个问题
+
+请根据已确认的事实，提出下一个需要澄清的关键问题。问题应该：
+1. 针对当前交易架构中的关键要素
+2. 避免重复已确认的信息
+3. 帮助用户补充缺失的必要信息
+
+只返回JSON格式，不要其他内容：
+{{
+    "text": "问题内容",
+    "category": "fact_gathering|risk_identification|clarification",
+    "required": true
+}}"""
+
+    try:
+        result = await ai_service.chat([{"role": "user", "content": prompt}])
+        # 清理可能的markdown代码块
+        result = result.strip()
+        if result.startswith("```"):
+            result = result.split("\n")[1].rstrip("```")
+        return json.loads(result)
+    except Exception as e:
+        print(f"Generate interview question error: {e}")
+        return {"text": f"请描述{project.get('primary_type', '')}交易的具体情况...", "category": "fact_gathering", "required": True}
 
 
 async def parse_interview_answer(
@@ -227,12 +270,42 @@ async def parse_interview_answer(
     step: int
 ) -> dict:
     """调用AI解析用户回答，提取结构化信息"""
-    # TODO: 实现AI调用逻辑
-    return {
-        "confirmed_elements": [],
-        "pending_elements": [],
-        "risks": []
-    }
+    from services.ai_service import ai_service
+
+    prompt = f"""请分析用户的回答，提取合同起草所需的关键信息。
+
+【交易类型】
+- 主类型：{project.get('primary_type', '未知')}
+- 附属类型：{', '.join(project.get('secondary_types', [])) if project.get('secondary_types') else '无'}
+
+【用户回答】
+{answer}
+
+【之前已确认的要素】
+{json.dumps(last_snapshot.get('confirmed_elements', []), ensure_ascii=False) if last_snapshot else '无'}
+
+请提取以下信息并返回JSON格式：
+{{
+    "confirmed_elements": [
+        {{"element": "要素名称", "value": "要素内容"}}
+    ],
+    "pending_elements": [
+        {{"element": "待确认要素", "reason": "原因说明"}}
+    ],
+    "risks": [
+        {{"level": "high|medium|low", "description": "风险描述"}}
+    ]
+}}"""
+
+    try:
+        result = await ai_service.chat([{"role": "user", "content": prompt}])
+        result = result.strip()
+        if result.startswith("```"):
+            result = result.split("\n")[1].rstrip("```")
+        return json.loads(result)
+    except Exception as e:
+        print(f"Parse interview answer error: {e}")
+        return {"confirmed_elements": [], "pending_elements": [], "risks": []}
 
 
 def calculate_total_questions(project: dict) -> int:
