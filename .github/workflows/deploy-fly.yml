@@ -1,0 +1,24 @@
+name: Deploy to Fly.io
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'backend/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to Fly.io
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Deploy to Fly.io
+        run: |
+          curl -X POST https://api.fly.io/graphql \
+            -H "Authorization: Bearer ${{ secrets.FLY_API_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "query": "mutation { appDeploy(input: {appId: \"hengseen-backend\", strategy: \"immediate\"}) { deployment { id status } } }"
+            }'
