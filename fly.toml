@@ -1,7 +1,7 @@
 app = "hengseen-backend"
 
 [build]
-  builder = "paketobuildpacks/builder:full"
+  builder = "nixpacks"
 
 [deploy]
   health_check_path = "/health"

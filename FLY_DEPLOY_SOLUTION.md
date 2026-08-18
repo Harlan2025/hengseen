@@ -1,59 +1,80 @@
-# Fly.io 部署问题解决
+# 🔧 Fly.io 部署问题诊断
 
-## 📍 找到 "Deploy" 按钮的方法
+## 错误信息
+```
+Error: invalid token: all tokens missing third-party discharge tokens
+```
 
-### 方法 1：通过 Activity 页面
-1. 访问：https://fly.io/apps/hengseen-backend/activity
-2. 页面顶部应该有 **"Deploy"** 或 **"Redeploy"** 按钮
+## 问题原因
+Fly.io 的 API Token 需要经过 **discharge**（放电/认证）过程才能用于部署操作。直接复制 Token 使用会失败。
 
-### 方法 2：通过 Web Terminal
-1. 访问：https://fly.io/apps/hengseen-backend/terminal
-2. 执行命令：`fly deploy`
+---
 
-### 方法 3：使用 Git Push
-如果你有 GitHub 集成：
-```bash
-git push origin main
+## 解决方案
+
+### 方法 1：使用浏览器登录（推荐）
+
+运行以下命令，会打开浏览器让你登录：
+```powershell
+& "C:\Users\haigu\AppData\Local\flyctl\flyctl.exe" auth login
+```
+
+登录后自动完成认证，然后执行：
+```powershell
+cd "F:/hermes/2 Mike/衡简叙约"
+& "C:\Users\haigu\AppData\Local\flyctl\flyctl.exe" --app hengseen-backend deploy --strategy immediate
 ```
 
 ---
 
-## 🔧 替代方案：重新生成 Token
+### 方法 2：通过 Fly.io Dashboard 手动触发
 
-如果找不到按钮，请：
+由于 CLI 认证问题，可以通过网页部署：
 
-1. 访问 https://fly.io/account/tokens
-2. 点击 **"Generate new token"**
-3. **权限选择**：
-   - 选择 **"Full access"** 或勾选：
-     - ✅ read
-     - ✅ write
-     - ✅ full
-4. **过期时间**：7 days
-5. 复制新 Token 发给我
+1. **访问**: https://fly.io/apps/hengseen-backend/activity
+2. 在页面顶部找 **"Deploy"** 按钮
+3. 点击触发部署
 
 ---
 
-## 🧪 验证当前状态
+### 方法 3：使用 GitHub Actions 自动部署
 
-后端 API 测试：
-```bash
-# 健康检查 - 应该返回 ok
-curl https://hengseen-backend.fly.dev/health
+如果已连接 GitHub，可以手动触发 workflow：
 
-# 登录测试 - 应该返回 token
-curl -X POST https://hengseen-backend.fly.dev/api/v1/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"phone":"13900139001","code":"123456","agree_user_agreement":true,"agree_privacy_policy":true,"agreement_version":"V1.0"}'
-```
-
-前端测试：
-- 访问：https://3c3d590c.hengseen.pages.dev
-- 尝试创建项目：主类型A + 附属类型B
+1. **访问**: https://github.com/Harlan2025/hengseen/actions
+2. 找到 "Deploy to Fly.io" workflow
+3. 点击 **"Run workflow"**
+4. 选择分支 `main`
+5. 点击绿色按钮
 
 ---
 
-**请告诉我：**
-1. 你在 Fly.io Dashboard 看到了什么？
-2. 能否找到 Web Terminal？
-3. 或者提供新的 Token？
+## 当前状态
+
+| 项目 | 状态 |
+|------|------|
+| `fly.toml` 配置 | ✅ 正确 |
+| GitHub 连接 | ✅ 已连接 |
+| CLI 认证 | ❌ Token 需要 discharge |
+| Dashboard 部署 | ⏳ 待尝试 |
+
+---
+
+## 下一步行动
+
+**请选择一种方式：**
+
+1. **运行浏览器登录命令**（推荐）
+   ```powershell
+   & "C:\Users\haigu\AppData\Local\flyctl\flyctl.exe" auth login
+   ```
+
+2. **通过 Dashboard 手动部署**
+   - 访问 Activity 页面
+   - 点击 Deploy 按钮
+
+3. **通过 GitHub Actions 部署**
+   - 访问 Actions 页面
+   - 运行 workflow
+
+请告诉我你选择哪种方式，或者运行后遇到什么问题！

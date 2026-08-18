@@ -1,102 +1,74 @@
-# 🔧 重新部署指南
+# 🚀 重新部署指南
 
 ## 当前状态
-- ❌ Restart 只是重启容器，**代码还是旧的**
-- ✅ 本地代码已修复
-- ⚠️ 云端需要重新构建和部署
+- ✅ GitHub 代码已更新
+- ✅ Fly.io 已连接到 GitHub
+- ⚠️ 云端后端需要重新构建部署最新代码
 
 ---
 
-## 方法 1：通过 GitHub Actions 触发部署（推荐）
+## 方法 1：通过 Activity 页面触发部署（推荐）
 
-### 步骤 1：访问 GitHub Actions
-打开：**https://github.com/Harlan2025/hengseen/actions**
+### 步骤 1：访问 Activity 页面
+```
+https://fly.io/apps/hengseen-backend/activity
+```
 
-### 步骤 2：手动触发 workflow
-1. 找到 **"Deploy to Fly.io"** 或类似的 workflow
-2. 点击 **"Run workflow"** 按钮
-3. 选择分支：`main`
-4. 点击绿色 **"Run workflow"** 按钮
+### 步骤 2：点击顶部按钮
+在页面顶部找以下按钮之一：
+- **"Deploy"**
+- **"Redeploy"**
+- **"Trigger Deploy"**
 
-### 步骤 3：等待部署完成
-- GitHub Actions 会自动构建和部署
-- 完成后会在 Action 页面显示成功/失败
+### 步骤 3：选择部署来源
+- 选择 **"Deploy from GitHub"**
+- 分支选择 `main`
+- 点击确认
 
 ---
 
-## 方法 2：重新生成 Fly.io Token
+## 方法 2：使用 flyctl 命令行
 
-由于 CLI Token 已过期，需要生成新的：
+### 步骤 1：登录
+```powershell
+& "C:\Users\haigu\AppData\Local\flyctl\flyctl.exe" auth login
+```
 
-### 步骤 1：访问 Token 管理
-打开：**https://fly.io/account/tokens**
+### 步骤 2：部署
+```powershell
+cd "F:/hermes/2 Mike/衡简叙约"
+& "C:\Users\haigu\AppData\Local\flyctl\flyctl.exe" --app hengseen-backend deploy
+```
 
-### 步骤 2：生成新 Token
-1. 点击 **"Generate new token"**
-2. **权限选择**（重要）：
-   - ✅ Read
-   - ✅ Write
-   - ✅ Full access
-3. **过期时间**：`7 days`
-4. 点击 **"Generate token"**
-5. 复制完整的 Token（以 `FlyV1` 开头）
+---
 
-### 步骤 3：发送给我
-把新 Token 发给我，我帮你执行：
+## 方法 3：通过 Web Terminal 部署
+
+### 步骤 1：访问 Web Terminal
+```
+https://fly.io/apps/hengseen-backend/terminal
+```
+
+### 步骤 2：执行部署命令
 ```bash
-fly deploy --app hengseen-backend
+cd /app
+fly deploy
 ```
 
 ---
 
-## 方法 3：临时本地测试
+## 验证部署成功
 
-如果云端部署暂时无法完成，可以先用本地测试：
-
-### 1. 修改前端配置
-编辑 `frontend/.env.development`：
-```
-VITE_API_URL=http://localhost:8000/api/v1
-```
-
-### 2. 启动本地前端
+部署完成后测试创建项目：
 ```bash
-cd "F:/hermes/2 Mike/衡简叙约/frontend"
-npm run dev
-```
-
-### 3. 访问
-```
-http://localhost:5173
-```
-
----
-
-## 验证修复成功
-
-部署成功后测试：
-```bash
-# 1. 登录
-curl -X POST https://hengseen-backend.fly.dev/api/v1/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"phone":"13900139001","code":"123456","agree_user_agreement":true,"agree_privacy_policy":true,"agreement_version":"V1.0"}'
-
-# 2. 使用返回的 token 创建项目
 curl -X POST https://hengseen-backend.fly.dev/api/v1/projects \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <token>" \
-  -d '{"name":"测试项目","primary_type":"A","secondary_types":["B"]}'
+  -d '{"name":"测试","primary_type":"A","secondary_types":["B"]}'
 ```
 
 ✅ 应该返回：`{"code":0,"msg":"成功","data":{"project_id":"..."}}`
 
 ---
 
-## 下一步
-
-请尝试：
-1. **首选**：方法 1 - 通过 GitHub Actions 触发部署
-2. **备选**：方法 2 - 生成新 Token 发给我
-3. **临时**：方法 3 - 本地测试
-
-**请选择一种方式继续！**
+**请尝试以上任一方法触发重新部署！**
