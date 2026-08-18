@@ -1,4 +1,4 @@
-name = "hengseen-backend"
+app = "hengseen-backend"
 
 [build]
   builder = "paketobuildpacks/builder:full"
