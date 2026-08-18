@@ -83,7 +83,7 @@ const currentQuestion = ref<any>(null)
 const answer = ref('')
 const submitting = ref(false)
 const currentStep = ref(1)
-const totalSteps = ref(5)
+const totalSteps = ref(20)
 const confirmedElements = ref<any[]>([])
 const risks = ref<any[]>([])
 const snapshot = ref<any>(null)
@@ -115,13 +115,19 @@ async function submitAnswer() {
     confirmedElements.value = res.data.confirmed_elements || []
     risks.value = res.data.risks || []
     
-    if (res.data.next_question) {
-      currentStep.value++
-      currentQuestion.value = res.data.next_question
-    } else {
-      ElMessage.success('访谈完成！')
+    // 使用后端返回的步骤信息
+    currentStep.value = res.data.step
+    totalSteps.value = res.data.total_steps
+    
+    // 检查是否完成访谈
+    if (res.data.project_status === 'outline_generated') {
+      ElMessage.success('访谈完成！正在生成大纲...')
       router.push(`/project/${projectId.value}`)
+    } else {
+      // 继续下一个问题
+      await fetchQuestion()
     }
+    
     answer.value = ''
   } catch (e: any) {
     ElMessage.error(e.response?.data?.detail?.msg || '提交失败')
