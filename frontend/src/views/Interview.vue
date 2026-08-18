@@ -134,7 +134,18 @@ function skipQuestion() {
   submitAnswer()
 }
 
-onMounted(fetchQuestion)
+onMounted(async () => {
+  try {
+    // 先更新项目状态为 interviewing
+    await api.put(`/projects/${projectId.value}`, {
+      status: 'interviewing'
+    })
+    // 获取访谈问题
+    await fetchQuestion()
+  } catch (e: any) {
+    ElMessage.error('初始化访谈失败')
+  }
+})
 </script>
 
 <style scoped>

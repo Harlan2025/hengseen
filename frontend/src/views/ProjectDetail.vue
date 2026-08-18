@@ -140,16 +140,7 @@ function updateStep() {
 }
 
 async function startInterview() {
-  try {
-    // 先更新项目状态为 interviewing
-    await api.put(`/projects/${projectId.value}`, {
-      status: 'interviewing'
-    })
-    // 然后跳转到访谈页面
-    router.push(`/interview/${projectId.value}`)
-  } catch (e: any) {
-    ElMessage.error(e.response?.data?.detail?.msg || '操作失败')
-  }
+  router.push(`/interview/${projectId.value}`)
 }
 
 function generateOutline() {
