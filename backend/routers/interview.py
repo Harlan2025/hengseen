@@ -308,7 +308,14 @@ async def parse_interview_answer(
         result = await ai_service.chat([{"role": "user", "content": prompt}])
         result = result.strip()
         if result.startswith("```"):
-            result = result.split("\n")[1].rstrip("```")
+            # 去除开头的 ```json 或 ```
+            lines = result.split("\n")
+            if lines[0].startswith("```"):
+                lines = lines[1:]
+            # 去除结尾的 ```
+            if lines and lines[-1].strip() == "```":
+                lines = lines[:-1]
+            result = "\n".join(lines)
         return json.loads(result)
     except Exception as e:
         print(f"Parse interview answer error: {e}")
