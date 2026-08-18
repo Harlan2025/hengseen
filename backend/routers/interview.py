@@ -256,7 +256,14 @@ async def generate_interview_question(project: dict, step: int, last_snapshot: d
         # 清理可能的markdown代码块
         result = result.strip()
         if result.startswith("```"):
-            result = result.split("\n")[1].rstrip("```")
+            # 去除开头的 ```json 或 ```
+            lines = result.split("\n")
+            if lines[0].startswith("```"):
+                lines = lines[1:]
+            # 去除结尾的 ```
+            if lines and lines[-1].strip() == "```":
+                lines = lines[:-1]
+            result = "\n".join(lines)
         return json.loads(result)
     except Exception as e:
         print(f"Generate interview question error: {e}")

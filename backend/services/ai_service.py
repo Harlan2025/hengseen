@@ -123,7 +123,10 @@ class AIService:
                 )
                 response.raise_for_status()
                 data = response.json()
-                return data["choices"][0]["message"]["content"]
+                # Agnes AI 可能将内容放在 reasoning_content 字段
+                content = data["choices"][0]["message"].get("content") or \
+                          data["choices"][0]["message"].get("reasoning_content") or ""
+                return content.strip()
             except httpx.HTTPStatusError as e:
                 print(f"AI API error: {e.response.text}")
                 return await self._mock_chat(messages, temperature)
