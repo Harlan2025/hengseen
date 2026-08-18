@@ -32,16 +32,27 @@ mock_ai.py 的关键词匹配逻辑错误：
 
 ## Git 状态
 - 本地 commit: `4bed338`
-- GitHub 推送：等待网络恢复
+- GitHub 推送：网络问题，需要手动推送
 
-## 下一步
-请在终端手动执行以下命令推送代码：
+---
+
+## 📋 请手动执行以下操作：
+
+### 步骤 1：推送代码到 GitHub
+打开终端，执行：
 ```bash
 cd "F:/hermes/2 Mike/衡简叙约"
 git push origin main
 ```
 
-然后请在 Fly.io 重新部署后端：
+### 步骤 2：在 Fly.io 重新部署后端
 1. 访问 https://fly.io/apps/hengseen-backend/activity
 2. 点击蓝色的 **"Deploy"** 按钮
 3. 等待部署完成（约3-5分钟）
+
+### 步骤 3：测试访谈功能
+1. 清除浏览器缓存（Ctrl+Shift+Delete）
+2. 强制刷新（Ctrl+F5）
+3. 访问 https://b01953f0.hengseen.pages.dev
+4. 登录 → 创建项目 → 点击"开始访谈"
+5. **确认访谈问题正常显示**
