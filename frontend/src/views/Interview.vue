@@ -21,7 +21,7 @@
           </div>
         </template>
         
-        <div class="question-text">{{ currentQuestion.text }}</div>
+        <div class="question-text">{{ currentQuestion.question_text }}</div>
         
         <el-input
           v-model="answer"
