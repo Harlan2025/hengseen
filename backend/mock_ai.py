@@ -92,19 +92,26 @@ class MockAIService:
     async def chat(self, messages: List[Dict[str, str]], temperature: float = 0.7) -> str:
         """模拟AI对话"""
         last_message = messages[-1]["content"] if messages else ""
-        
-        # 根据输入返回模拟响应
-        if "访谈问题" in last_message or "question" in last_message.lower():
+
+        # 先检查是否是访谈问题生成请求（最精确的匹配）
+        if "提出下一个需要澄清的关键问题" in last_message and "只返回JSON格式" in last_message:
+            primary_type = "A"
+            for line in last_message.split("\n"):
+                if line.startswith("- 主类型："):
+                    primary_type = line.replace("- 主类型：", "").strip()
+                    break
+
             return json.dumps({
-                "text": "下一个问题：请描述交易的具体标的和数量...",
+                "text": f"请描述{primary_type}交易的基本情况",
                 "category": "fact_gathering",
                 "required": True
             })
-        
-        if "解析" in last_message or "parse" in last_message.lower():
+
+        # 检查是否是答案解析请求
+        if "提取合同起草所需的关键信息" in last_message and "返回JSON格式" in last_message:
             return json.dumps({
                 "confirmed_elements": [
-                    {"element": "交易标的", "value": "货物A"}
+                    {"element": "交易标的", "value": "待确认"}
                 ],
                 "pending_elements": [
                     {"element": "交货时间", "reason": "未明确"}
