@@ -1,8 +1,5 @@
 app = "hengseen-backend"
 
-[build]
-  builder = "nixpacks"
-
 [deploy]
   health_check_path = "/health"
   health_check_timeout_seconds = 30
