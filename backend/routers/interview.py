@@ -41,12 +41,27 @@ async def get_current_question(project_id: str, user_data: dict = Depends(get_cu
     # 获取最新快照，确定当前步骤
     snapshot_result = supabase.table("interview_snapshot").select("*").eq("project_id", project_id).order("step", desc=True).limit(1).execute()
     latest_snapshot = snapshot_result.data[0] if snapshot_result.data else {}
-    
+
     current_step = (latest_snapshot.get("step") or 0) + 1
-    
+
     # 调用AI生成问题
     question = await generate_interview_question(project, current_step, latest_snapshot)
-    
+
+    # 保存生成的问题到快照（用于后续追踪）
+    previous_questions = latest_snapshot.get("questions_asked", []) if latest_snapshot else []
+    snapshot_id = str(uuid.uuid4())
+    now = datetime.utcnow()
+    supabase.table("interview_snapshot").insert({
+        "snapshot_id": snapshot_id,
+        "project_id": project_id,
+        "step": current_step,
+        "confirmed_elements": [],
+        "pending_elements": [],
+        "risks": [],
+        "questions_asked": previous_questions + [question["text"]],
+        "created_at": now.isoformat(),
+    }).execute()
+
     return ApiResponse(data={
         "question_id": str(uuid.uuid4()),
         "step": current_step,
