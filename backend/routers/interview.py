@@ -81,7 +81,16 @@ async def submit_answer(project_id: str, req: InterviewAnswer, user_data: dict =
     # 保存新快照
     snapshot_id = str(uuid.uuid4())
     now = datetime.utcnow()
-    
+
+    # 获取之前的问题列表
+    previous_questions = []
+    if latest_snapshot and latest_snapshot.get("questions_asked"):
+        previous_questions = latest_snapshot["questions_asked"]
+
+    # 保存新快照
+    snapshot_id = str(uuid.uuid4())
+    now = datetime.utcnow()
+
     supabase.table("interview_snapshot").insert({
         "snapshot_id": snapshot_id,
         "project_id": project_id,
@@ -89,6 +98,7 @@ async def submit_answer(project_id: str, req: InterviewAnswer, user_data: dict =
         "confirmed_elements": result.get("confirmed_elements", []),
         "pending_elements": result.get("pending_elements", []),
         "risks": result.get("risks", []),
+        "questions_asked": previous_questions,
         "created_at": now.isoformat(),
     }).execute()
     
@@ -122,7 +132,7 @@ async def submit_answer(project_id: str, req: InterviewAnswer, user_data: dict =
 @router.get("/{project_id}/snapshots", response_model=ApiResponse)
 async def list_snapshots(project_id: str, user_data: dict = Depends(get_current_user)):
     """获取访谈历史快照列表（用于回溯）"""
-    result = supabase.table("interview_snapshot").select("*").eq("project_id", project_id).order("step", asc=True).execute()
+    result = supabase.table("interview_snapshot").select("*").eq("project_id", project_id).order("step").execute()
     
     snapshots = []
     for row in result.data or []:
@@ -227,6 +237,13 @@ async def generate_interview_question(project: dict, step: int, last_snapshot: d
         for elem in last_snapshot["pending_elements"]:
             pending_text += f"- {elem.get('element', '')}: {elem.get('reason', '')}\n"
 
+    # 构建之前问题的文本（避免重复）
+    previous_questions_text = ""
+    if last_snapshot and last_snapshot.get("questions_asked"):
+        previous_questions_text = "\n之前已提问：\n"
+        for q in last_snapshot["questions_asked"]:
+            previous_questions_text += f"- {q}\n"
+
     prompt = f"""你是一位专业的法务访谈助手，正在帮助用户完成合同起草访谈。
 
 【项目信息】
@@ -237,12 +254,13 @@ async def generate_interview_question(project: dict, step: int, last_snapshot: d
 
 【待确认的事项】{pending_text if pending_text else '无'}
 
-【当前步骤】第 {step} 个问题
+{previous_questions_text}【当前步骤】第 {step} 个问题
 
 请根据已确认的事实，提出下一个需要澄清的关键问题。问题应该：
 1. 针对当前交易架构中的关键要素
 2. 避免重复已确认的信息
-3. 帮助用户补充缺失的必要信息
+3. 避免重复之前已问过的问题
+4. 帮助用户补充缺失的必要信息
 
 只返回JSON格式，不要其他内容：
 {{
